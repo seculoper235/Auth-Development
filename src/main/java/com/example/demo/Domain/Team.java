@@ -20,9 +20,11 @@ public class Team {
      * 하지만 auto_increment가 없다면 MySQL은 키를 증가시키지 않는다.
      * 따라서 키를 데이터베이스가 생성하지 않으므로, Field id doesn't have a default value!라는 오류가 나게 된다.
      * 즉 데이터를 저장하고 싶어도 키 값이 생성되지 않으므로, 저장이 되지 않는다.
-     * 따라서 entityManager로 테스트하고 싶다면, 해당 @GeneratedValue 어노테이션을 비활성화 시키고, 직접 id를 할당하는 방식을 택해야 한다.
+     * 따라서 primary key 설정을 auto_increment로 바꿔야 정상적인 동작이 가능하다.
+     *
+     * auto_increment가 적용되지않는 컬럼(varchar 등)은 자동 생성할 수 없으므로, @GeneratedValue 방식이 아닌 직접 id를 할당하는 방식을 택해야 한다.
      */
-    @Id //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;

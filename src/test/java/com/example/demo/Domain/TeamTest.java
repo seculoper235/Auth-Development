@@ -67,7 +67,6 @@ public class TeamTest {
     public void selectTeamTest() {
         // Given
         Team team = Team.builder()
-                .id(2)
                 .name("팀2")
                 .users(users)
                 .build();
