@@ -4,4 +4,5 @@ import com.example.demo.Domain.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamRepository extends JpaRepository<Team, Integer> {
+    public Team findTeamByName(String name);
 }
