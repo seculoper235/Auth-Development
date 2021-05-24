@@ -4,6 +4,7 @@ import com.example.demo.Domain.Team;
 import com.example.demo.Domain.User;
 import com.example.demo.Repository.TeamRepository;
 import com.example.demo.Repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
@@ -40,6 +41,11 @@ public class UserIntegrationConfig {
     // 실제 앱을 돌리는 것이므로, W.A.C도 주입해줘야 한다.
     @Autowired
     private WebApplicationContext webApplicationContext;
+
+    // 현재 API는 json 형태로 입력받는다. 즉 문자열의 형태로 입력받는단 것이다.
+    // 따라서 POST 방식으로 객체를 입력받기 위해선, 객체를 문자열로 변경해줘야 한다. 바로 그 역할을 ObjectMapper가 한다.
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     // 더이상 @MockBean이 아닌 @Autowird로 실제 Bean을 등록한다.
     @Autowired
