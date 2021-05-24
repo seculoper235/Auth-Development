@@ -3,12 +3,14 @@ package com.example.demo.Controller;
 import com.example.demo.Entity.UserDto;
 import com.example.demo.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/users")
+// type-safe 하도록 consumes와 produces를 json으로 설정해준다.
+@RequestMapping(value = "/users",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
     private final UserService userService;
 
