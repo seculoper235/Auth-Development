@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    group:
+      server: production
+    active: server
+---
+## 기본 서버 환경 설정
+
+# Spring 관련
+spring:
+  config:
+    activate:
+      on-profile: production
+  devtools:
+    add-properties: false
+  output:
+    ansi:
+      enabled: always
+
+  # DataSource 설정
+  datasource:
+    hikari:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5432/testdb?characterEncoding=utf-8
+      username: postgres
+      password: postgres1234
+
+  ## JPA 설정
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
