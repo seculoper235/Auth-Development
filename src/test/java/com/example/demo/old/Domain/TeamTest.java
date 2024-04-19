@@ -1,5 +1,7 @@
-package com.example.demo.Domain;
+package com.example.demo.old.Domain;
 
+import com.example.demo.Domain.Team;
+import com.example.demo.Domain.User;
 import com.example.demo.Repository.TeamRepository;
 import org.junit.Assert;
 import org.junit.Before;

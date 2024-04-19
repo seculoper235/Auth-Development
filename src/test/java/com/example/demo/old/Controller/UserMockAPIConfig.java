@@ -1,5 +1,6 @@
-package com.example.demo.Controller;
+package com.example.demo.old.Controller;
 
+import com.example.demo.Controller.UserController;
 import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

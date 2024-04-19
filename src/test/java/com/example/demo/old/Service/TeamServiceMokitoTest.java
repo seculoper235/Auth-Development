@@ -1,8 +1,9 @@
-package com.example.demo.Service;
+package com.example.demo.old.Service;
 
 import com.example.demo.Domain.Team;
 import com.example.demo.Entity.TeamDto;
 import com.example.demo.Repository.TeamRepository;
+import com.example.demo.Service.TeamService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;

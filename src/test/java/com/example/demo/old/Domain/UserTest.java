@@ -1,4 +1,4 @@
-package com.example.demo.Domain;
+package com.example.demo.old.Domain;
 
 import org.junit.Before;
 import org.junit.Test;
