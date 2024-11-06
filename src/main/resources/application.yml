@@ -36,3 +36,6 @@ spring:
       ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  liquibase:
+    change-log: db/changelog.yaml

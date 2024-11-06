@@ -1,0 +1,93 @@
+databaseChangeLog:
+  - property:
+      dbms: postgresql, h2
+      name: function.now
+      value: now()
+  - property:
+      dbms: postgresql, h2
+      name: function.now
+      value: now()
+  - objectQuotingStrategy: QUOTE_ALL_OBJECTS
+  - changeSet:
+      id: create-user
+      author: DevTeller
+      changes:
+        - createTable:
+            tableName: User
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+  - changeSet:
+      id: create-sns-account
+      author: DevTeller
+      changes:
+        - createTable:
+            tableName: SNS_ACCOUNT
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: uid
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: uid
+                  type: varchar(255)
+              - column:
+                  name: type
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: user
+            baseTableName: SNS_ACCOUNT
+            constraintName: SNS_ACCOUNT_User_fkey
+            onDelete: RESTRICT
+            referencedColumnNames: id
+            referencedTableName: User
+            validate: true
+  - changeSet:
+      id: insert-user
+      author: DevTeller
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: name
+                  value: "dev teller"
+              - column:
+                  name: email
+                  value: "devteller123@gmail.com"
+              - column:
+                  name: password
+                  value: "$2a$10$B5tKf/PyHEzhpImNkwHKyONoPyqCcXY68DVLQB6PIGsZARUrsGxdq"
+            tableName: User
