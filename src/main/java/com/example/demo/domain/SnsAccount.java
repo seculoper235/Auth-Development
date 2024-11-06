@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @JsonSerialize
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "\"SNS_ACCOUNT\"")
 @Entity
 public class SnsAccount {
     @Id
@@ -19,6 +20,6 @@ public class SnsAccount {
     private String uid;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private SnsType snsType;
+    @Column(length = 20, nullable = false)
+    private SnsType type;
 }
