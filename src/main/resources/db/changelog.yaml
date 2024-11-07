@@ -55,9 +55,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: uid
-                  type: varchar(255)
-              - column:
                   name: type
                   type: varchar(20)
                   constraints:

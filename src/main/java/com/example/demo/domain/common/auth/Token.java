@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.domain.common.auth;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;

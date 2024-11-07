@@ -1,14 +1,11 @@
-package com.example.demo.domain;
+package com.example.demo.domain.common.auth;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@JsonSerialize
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 @Table(name = "\"SNS_ACCOUNT\"")
 @Entity
 public class SnsAccount {

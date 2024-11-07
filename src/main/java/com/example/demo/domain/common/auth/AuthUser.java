@@ -1,20 +1,17 @@
-package com.example.demo.domain;
+package com.example.demo.domain.common.auth;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Collections;
 import java.util.List;
 
 @Getter
-@JsonSerialize
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
 @Table(name = "\"User\"")
 @Entity
-public class User {
+public class AuthUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

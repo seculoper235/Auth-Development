@@ -18,6 +18,8 @@ spring:
       enabled: always
 
   # DataSource 설정
+  main.allow-bean-definition-overriding: true
+  sql.init.encoding: UTF-8
   datasource:
     hikari:
       driver-class-name: org.postgresql.Driver
