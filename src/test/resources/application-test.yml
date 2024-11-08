@@ -1,0 +1,20 @@
+spring:
+  # DataSource 설정
+  main.allow-bean-definition-overriding: true
+  sql.init.encoding: UTF-8
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:test;DATABASE_TO_UPPER=FALSE
+      username: sa
+      password:
+
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  liquibase:
+    change-log: db/changelog.yaml

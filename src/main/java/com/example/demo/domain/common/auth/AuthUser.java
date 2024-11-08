@@ -1,8 +1,7 @@
 package com.example.demo.domain.common.auth;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +9,9 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "\"User\"")
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class AuthUser {
     @Id
