@@ -2,6 +2,7 @@ package com.example.demo.domain.common.auth;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,4 +31,8 @@ public class AuthUser {
     @OneToMany
     @JoinColumn
     private List<SnsAccount> snsAccounts = Collections.emptyList();
+
+    public Boolean authenticate(PasswordEncoder passwordEncoder, String password) {
+        return passwordEncoder.matches(password, this.getPassword());
+    }
 }
