@@ -7,11 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static com.example.demo.comon.CollectionsUtils.toNotNullList;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -24,6 +27,9 @@ public class SecurityConfigTest extends SecurityTestConfig {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
+
     @DisplayName("Spring Security 세션 생성 정책 테스트(STATELESS)")
     @Test
     public void session_policy_stateless_test() throws Exception {
@@ -34,20 +40,24 @@ public class SecurityConfigTest extends SecurityTestConfig {
     }
 
     @Test
-    @DisplayName("CORS 설정(Origin, Method) 확인 테스트")
-    void cors_origin_and_method_test() {
+    @DisplayName("URL 기반 CORS 설정(Origin, Method) 확인 테스트")
+    void url_based_cors_origin_and_method_test() {
         assertDoesNotThrow(() -> {
-            List<String> allowedOrigins = List.of("http://localhost:5173");
+            CorsConfiguration corsConfiguration = ((UrlBasedCorsConfigurationSource) corsConfigurationSource).getCorsConfigurations().get("/**");
 
-            List<String> allowedMethods = List.of("GET", "POST", "PUT", "DELETE", "OPTIONS");
+            List<String> allowedOrigins = corsConfiguration.getAllowedOrigins();
+
+            List<String> allowedMethods = toNotNullList(corsConfiguration.getAllowedMethods());
+
+            assertNotNull(allowedOrigins);
 
             mockMvc.perform(
                             options("/login")
-                                    .header("Origin", allowedOrigins)
+                                    .header("Origin", allowedOrigins.getFirst())
                                     .header("Access-Control-Request-Method", "POST")
                     )
                     .andExpect(status().isOk())
-                    .andExpect(header().stringValues("Access-Control-Allow-Origin", allowedOrigins.toArray(new String[]{})))
+                    .andExpect(header().stringValues("Access-Control-Allow-Origin", allowedOrigins.toArray(String[]::new)))
                     .andExpect(header().string("Access-Control-Allow-Methods", String.join(",", allowedMethods)));
         });
     }
