@@ -1,4 +1,4 @@
-package com.example.demo.domain.auth;
+package com.example.demo.auth.domain;
 
 import com.example.demo.config.DomainTestConfig;
 import com.example.demo.domain.common.auth.AuthUser;
