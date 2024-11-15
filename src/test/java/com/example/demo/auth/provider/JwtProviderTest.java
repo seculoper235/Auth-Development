@@ -1,11 +1,19 @@
 package com.example.demo.auth.provider;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.config.ComponentTestEnv;
 import com.example.demo.model.common.auth.Token;
 import com.example.demo.model.common.auth.UserPrincipal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JwtProviderTest extends ComponentTestEnv {
     private UserPrincipal expectedPrincipal;
@@ -21,25 +29,59 @@ public class JwtProviderTest extends ComponentTestEnv {
     @Test
     @DisplayName("JWT 생성 시, 인증된 사용자 정보를 받으면 인증 정보 클레임이 있는 JWT를 반환한다")
     void user_principal_create_token_test() {
+        // Given
+        UserPrincipal principal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+
+        // When
+        String token = jwtProvider.createToken(principal);
+        DecodedJWT result = JWT.decode(token);
+
+        // Then
+        assertThat(result.getClaim("name").asString()).isEqualTo(expectedPrincipal.getName());
+        assertThat(result.getClaim("email").asString()).isEqualTo(expectedPrincipal.getEmail());
     }
 
     @Test
     @DisplayName("JWT 생성 시, 값을 넘겨주지 않으면 기본 클레임만 있는 JWT를 반환한다")
     void no_param_create_token_test() {
+        // When
+        String token = jwtProvider.createToken();
+        DecodedJWT result = JWT.decode(token);
+
+        // Then
+        assertNull(result.getClaim("name").asString());
+        assertNull(result.getClaim("email").asString());
     }
 
     @Test
     @DisplayName("JWT 인증 시, 유효한 JWT를 받으면 사용자 정보를 반환한다")
     void valid_token_create_user_principal_test() {
+        // Given
+        Token token = new Token("ACCESS_TOKEN", "REFRESH_TOKEN");
+
+        // When
+        UserPrincipal result = jwtProvider.verifyToken(token.accessToken());
+
+        // Then
+        assertThat(result.getName()).isEqualTo(expectedPrincipal.getName());
+        assertThat(result.getEmail()).isEqualTo(expectedPrincipal.getEmail());
     }
 
     @Test
     @DisplayName("JWT 검증 시, 만료된 JWT를 받으면 TokenExpiredException을 반환한다")
     void expired_token_throw_token_expired_exception() {
+        String refreshToken = "REFRESH_TOKEN";
+
+        assertThrows(TokenExpiredException.class,
+                () -> jwtProvider.verifyToken(refreshToken));
     }
 
     @Test
     @DisplayName("JWT 검증 시, 잘못된 JWT를 받으면 JWTVerificationException을 반환한다")
     void no_valid_token_throw_jwt_verification_exception() {
+        String refreshToken = "REFRESH_TOKEN";
+
+        assertThrows(JWTVerificationException.class,
+                () -> jwtProvider.verifyToken(refreshToken));
     }
 }
