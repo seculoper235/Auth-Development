@@ -1,17 +1,13 @@
 package com.example.demo.auth.provider;
 
-import com.example.demo.config.DomainTestConfig;
+import com.example.demo.config.ComponentTestEnv;
 import com.example.demo.domain.common.auth.Token;
 import com.example.demo.domain.common.auth.UserPrincipal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-public class JwtProviderTest extends DomainTestConfig {
-    @Autowired
-    private JwtProvider jwtProvider;
-
+public class JwtProviderTest extends ComponentTestEnv {
     private UserPrincipal expectedPrincipal;
 
     private Token expectedToken;
@@ -23,8 +19,13 @@ public class JwtProviderTest extends DomainTestConfig {
     }
 
     @Test
-    @DisplayName("JWT 생성 시, 인증된 사용자 정보를 받으면 토큰 정보를 반환한다")
-    void user_principal_create_token_info_test() {
+    @DisplayName("JWT 생성 시, 인증된 사용자 정보를 받으면 인증 정보 클레임이 있는 JWT를 반환한다")
+    void user_principal_create_token_test() {
+    }
+
+    @Test
+    @DisplayName("JWT 생성 시, 값을 넘겨주지 않으면 기본 클레임만 있는 JWT를 반환한다")
+    void no_param_create_token_test() {
     }
 
     @Test
