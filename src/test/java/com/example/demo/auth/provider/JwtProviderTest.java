@@ -1,8 +1,8 @@
 package com.example.demo.auth.provider;
 
 import com.example.demo.config.ComponentTestEnv;
-import com.example.demo.domain.common.auth.Token;
-import com.example.demo.domain.common.auth.UserPrincipal;
+import com.example.demo.model.common.auth.Token;
+import com.example.demo.model.common.auth.UserPrincipal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

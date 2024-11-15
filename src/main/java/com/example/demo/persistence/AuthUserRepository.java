@@ -1,6 +1,6 @@
 package com.example.demo.persistence;
 
-import com.example.demo.domain.common.auth.AuthUser;
+import com.example.demo.model.common.auth.AuthUser;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

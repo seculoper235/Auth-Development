@@ -1,4 +1,4 @@
-package com.example.demo.domain.common.auth;
+package com.example.demo.model.common.auth;
 
 import jakarta.persistence.*;
 import lombok.*;

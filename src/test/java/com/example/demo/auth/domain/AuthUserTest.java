@@ -1,7 +1,7 @@
 package com.example.demo.auth.domain;
 
 import com.example.demo.config.DomainTestConfig;
-import com.example.demo.domain.common.auth.AuthUser;
+import com.example.demo.model.common.auth.AuthUser;
 import com.example.demo.persistence.AuthUserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
