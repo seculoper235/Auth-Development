@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.domain.JwtProvider;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ActiveProfiles;
