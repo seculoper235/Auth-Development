@@ -7,5 +7,5 @@ import org.springframework.test.context.ActiveProfiles;
 @WebMvcTest
 @ActiveProfiles("test")
 @Disabled
-public class SecurityTestEnvironment {
+public class SecurityTestEnv {
 }

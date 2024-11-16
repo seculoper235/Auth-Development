@@ -9,5 +9,5 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Disabled
-public class DomainTestConfig {
+public class DomainTestEnv {
 }
