@@ -19,9 +19,6 @@ public class AuthUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 10, nullable = false)
-    private String name;
-
     @Column(length = 100, nullable = false)
     private String email;
 
@@ -32,7 +29,7 @@ public class AuthUser {
     @JoinColumn
     private List<SnsAccount> snsAccounts = Collections.emptyList();
 
-    public Boolean authenticate(PasswordEncoder passwordEncoder, String password) {
+    public Boolean matchPassword(PasswordEncoder passwordEncoder, String password) {
         return passwordEncoder.matches(password, this.getPassword());
     }
 }
