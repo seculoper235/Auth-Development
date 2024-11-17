@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 @JsonSerialize
-public record Token(
+public record TokenInfo(
         String accessToken,
         String refreshToken
 ) {

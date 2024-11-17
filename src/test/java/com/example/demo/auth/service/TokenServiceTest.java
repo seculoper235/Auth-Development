@@ -2,10 +2,18 @@ package com.example.demo.auth.service;
 
 import com.example.demo.config.ServiceTestEnv;
 import com.example.demo.domain.JwtProvider;
+import com.example.demo.model.common.auth.TokenInfo;
+import com.example.demo.model.common.auth.UserPrincipal;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 
 public class TokenServiceTest extends ServiceTestEnv {
     @InjectMocks
@@ -13,11 +21,29 @@ public class TokenServiceTest extends ServiceTestEnv {
 
     @Mock
     private JwtProvider jwtProvider;
+    ø
+    private UserPrincipal expectedPrincipal;
+
+    private TokenInfo expectedTokenInfo;
+
+    @BeforeEach
+    void setUp() {
+        expectedPrincipal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+        expectedTokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
+    }
 
     @Test
     @DisplayName("인증 정보를 받아 토큰 정보를 반환한다")
     void user_principal_create_token_info() {
-        //
+        UserPrincipal principal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+        TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
+
+        given(jwtProvider.createToken(any(), anyLong())).willReturn(tokenInfo.accessToken());
+        given(jwtProvider.createToken(anyLong())).willReturn(tokenInfo.refreshToken());
+
+        TokenInfo result = tokenService.createToken(principal);
+
+        assertThat(result).isEqualTo(expectedTokenInfo);
     }
 
     @Test
@@ -35,6 +61,13 @@ public class TokenServiceTest extends ServiceTestEnv {
     @Test
     @DisplayName("유효한 어세스 토큰을 받으면 인증 정보를 얻어낸다")
     void vaid_access_token_create_user_principal() {
-        //
+        UserPrincipal principal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+        String accessToken = "ACCESS_TOKEN";
+
+        given(jwtProvider.verifyToken(any())).willReturn(principal);
+
+        UserPrincipal result = tokenService.getUserPrincipal(accessToken);
+
+        assertThat(result).isEqualTo(expectedPrincipal);
     }
 }
