@@ -4,6 +4,7 @@ import com.example.demo.config.ServiceTestEnv;
 import com.example.demo.domain.JwtProvider;
 import com.example.demo.model.common.auth.TokenInfo;
 import com.example.demo.model.common.auth.UserPrincipal;
+import com.example.demo.service.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 
 public class TokenServiceTest extends ServiceTestEnv {
@@ -21,7 +21,7 @@ public class TokenServiceTest extends ServiceTestEnv {
 
     @Mock
     private JwtProvider jwtProvider;
-    ø
+
     private UserPrincipal expectedPrincipal;
 
     private TokenInfo expectedTokenInfo;
@@ -38,8 +38,8 @@ public class TokenServiceTest extends ServiceTestEnv {
         UserPrincipal principal = new UserPrincipal("dev teller", "devteller123@gmail.com");
         TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
 
-        given(jwtProvider.createToken(any(), anyLong())).willReturn(tokenInfo.accessToken());
-        given(jwtProvider.createToken(anyLong())).willReturn(tokenInfo.refreshToken());
+        given(jwtProvider.createToken(any(), any())).willReturn(tokenInfo.accessToken());
+        given(jwtProvider.createToken(any())).willReturn(tokenInfo.refreshToken());
 
         TokenInfo result = tokenService.createToken(principal);
 
@@ -68,6 +68,7 @@ public class TokenServiceTest extends ServiceTestEnv {
 
         UserPrincipal result = tokenService.getUserPrincipal(accessToken);
 
-        assertThat(result).isEqualTo(expectedPrincipal);
+        assertThat(result.getName()).isEqualTo(expectedPrincipal.getName());
+        assertThat(result.getEmail()).isEqualTo(expectedPrincipal.getEmail());
     }
 }

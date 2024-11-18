@@ -26,3 +26,5 @@ spring:
 
 jwt:
   secret: myjwttestsecretkey
+  EXPIRATION_MILLISECONDS: 3600000  # 2 * 1000 * 60 * 30L
+  REFRESH_EXPIRATION_MILLISECONDS: 86400000 # 48 * 1000 * 60 * 30L
