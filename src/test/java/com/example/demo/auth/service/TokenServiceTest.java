@@ -2,8 +2,10 @@ package com.example.demo.auth.service;
 
 import com.example.demo.config.ServiceTestEnv;
 import com.example.demo.domain.JwtProvider;
+import com.example.demo.model.common.auth.AppPrincipal;
 import com.example.demo.model.common.auth.TokenInfo;
 import com.example.demo.model.common.auth.UserPrincipal;
+import com.example.demo.persistence.RedisRepository;
 import com.example.demo.service.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -21,6 +26,9 @@ public class TokenServiceTest extends ServiceTestEnv {
 
     @Mock
     private JwtProvider jwtProvider;
+
+    @Mock
+    private RedisRepository redisRepository;
 
     private UserPrincipal expectedPrincipal;
 
@@ -47,15 +55,29 @@ public class TokenServiceTest extends ServiceTestEnv {
     }
 
     @Test
-    @DisplayName("토큰 재발급 시, 리프레시 토큰으로 어세스 토큰을 재발급한다")
+    @DisplayName("토큰 재발급 시, 리프레시 토큰으로 인증정보를 얻어냈다면 어세스 토큰을 재발급한다")
     void refresh_token_reissue_access_token() {
-        //
+        UserPrincipal principal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+        AppPrincipal appPrincipal = new AppPrincipal("REFRESH_TOKEN", principal);
+        TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
+
+        given(redisRepository.findById(any())).willReturn(Optional.of(appPrincipal));
+        given(jwtProvider.createToken(any(), any())).willReturn(tokenInfo.accessToken());
+
+        String result = tokenService.reissueToken(tokenInfo.refreshToken());
+
+        assertThat(result).isEqualTo(expectedTokenInfo.accessToken());
     }
 
     @Test
-    @DisplayName("토큰 재발급 시, 유효하지 않은 리프레시 토큰을 받으면 에러를 던진다")
+    @DisplayName("토큰 재발급 시, 리프레시 토큰으로 인증정보를 얻어내지 못했다면 에러를 던진다")
     void no_valid_refresh_token_reissue_throw_TokenNotFoundException() {
-        //
+        TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
+
+        given(redisRepository.findById(any())).willReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () ->
+                tokenService.reissueToken(tokenInfo.refreshToken()));
     }
 
     @Test
