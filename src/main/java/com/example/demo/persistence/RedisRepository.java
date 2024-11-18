@@ -1,6 +1,6 @@
 package com.example.demo.persistence;
 
-import com.example.demo.model.common.auth.AppPrincipal;
+import com.example.demo.model.common.security.AppPrincipal;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

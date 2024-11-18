@@ -1,4 +1,4 @@
-package com.example.demo.model.common.auth;
+package com.example.demo.model.common.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

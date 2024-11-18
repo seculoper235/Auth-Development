@@ -2,9 +2,9 @@ package com.example.demo.auth.service;
 
 import com.example.demo.config.ServiceTestEnv;
 import com.example.demo.domain.JwtProvider;
-import com.example.demo.model.common.auth.AppPrincipal;
-import com.example.demo.model.common.auth.TokenInfo;
-import com.example.demo.model.common.auth.UserPrincipal;
+import com.example.demo.model.common.security.AppPrincipal;
+import com.example.demo.model.common.security.TokenInfo;
+import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
 import com.example.demo.service.TokenService;
 import org.junit.jupiter.api.BeforeEach;

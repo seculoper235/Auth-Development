@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.JwtProvider;
-import com.example.demo.model.common.auth.AppPrincipal;
-import com.example.demo.model.common.auth.TokenInfo;
-import com.example.demo.model.common.auth.UserPrincipal;
+import com.example.demo.model.common.security.AppPrincipal;
+import com.example.demo.model.common.security.TokenInfo;
+import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
