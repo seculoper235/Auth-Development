@@ -46,4 +46,8 @@ public class TokenService {
     public UserPrincipal getUserPrincipal(String accessToken) {
         return jwtProvider.verifyToken(accessToken);
     }
+
+    public void deleteUserPrincipal(String accessToken) {
+        redisRepository.deleteById(accessToken);
+    }
 }
