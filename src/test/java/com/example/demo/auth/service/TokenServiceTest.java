@@ -36,18 +36,20 @@ public class TokenServiceTest extends ServiceTestEnv {
 
     @BeforeEach
     void setUp() {
-        expectedPrincipal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+        expectedPrincipal = new UserPrincipal(1L, "devteller123@gmail.com");
         expectedTokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
     }
 
     @Test
-    @DisplayName("인증 정보를 받아 토큰 정보를 반환한다")
+    @DisplayName("토큰 생성 시, 리프레시 토큰으로 인증정보를 얻어냈다면 토큰 정보를 반환한다")
     void user_principal_create_token_info() {
-        UserPrincipal principal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+        UserPrincipal principal = new UserPrincipal(1L, "devteller123@gmail.com");
         TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
+        AppPrincipal appPrincipal = new AppPrincipal("REFRESH_TOKEN", principal);
 
         given(jwtProvider.createToken(any(), any())).willReturn(tokenInfo.accessToken());
         given(jwtProvider.createToken(any())).willReturn(tokenInfo.refreshToken());
+        given(redisRepository.save(any())).willReturn(appPrincipal);
 
         TokenInfo result = tokenService.createToken(principal);
 
@@ -57,7 +59,7 @@ public class TokenServiceTest extends ServiceTestEnv {
     @Test
     @DisplayName("토큰 재발급 시, 리프레시 토큰으로 인증정보를 얻어냈다면 어세스 토큰을 재발급한다")
     void refresh_token_reissue_access_token() {
-        UserPrincipal principal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+        UserPrincipal principal = new UserPrincipal(1L, "devteller123@gmail.com");
         AppPrincipal appPrincipal = new AppPrincipal("REFRESH_TOKEN", principal);
         TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
 
@@ -82,8 +84,8 @@ public class TokenServiceTest extends ServiceTestEnv {
 
     @Test
     @DisplayName("유효한 어세스 토큰을 받으면 인증 정보를 얻어낸다")
-    void vaid_access_token_create_user_principal() {
-        UserPrincipal principal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+    void valid_access_token_create_user_principal() {
+        UserPrincipal principal = new UserPrincipal(1L, "devteller123@gmail.com");
         String accessToken = "ACCESS_TOKEN";
 
         given(jwtProvider.verifyToken(any())).willReturn(principal);

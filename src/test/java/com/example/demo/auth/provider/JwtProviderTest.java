@@ -35,8 +35,8 @@ public class JwtProviderTest extends ComponentTestEnv {
 
     @BeforeEach
     void setUp() {
-        paramPrincipal = new UserPrincipal("dev teller", "devteller123@gmail.com");
-        expectedPrincipal = new UserPrincipal("dev teller", "devteller123@gmail.com");
+        paramPrincipal = new UserPrincipal(1L, "devteller123@gmail.com");
+        expectedPrincipal = new UserPrincipal(1L, "devteller123@gmail.com");
     }
 
     @Test

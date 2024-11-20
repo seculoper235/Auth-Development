@@ -10,13 +10,13 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserPrincipal implements Principal {
 
-    private final String name;
+    private final Long id;
 
     @Getter
     private final String email;
 
     @Override
     public String getName() {
-        return this.name;
+        return this.id.toString();
     }
 }

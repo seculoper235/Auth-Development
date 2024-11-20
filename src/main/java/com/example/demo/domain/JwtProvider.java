@@ -63,7 +63,7 @@ public class JwtProvider {
     public UserPrincipal verifyToken(String token) {
         DecodedJWT decodedJWT = jwtVerifier.verify(token);
 
-        String id = decodedJWT.getClaim("id").asString();
+        Long id = decodedJWT.getClaim("id").asLong();
         String email = decodedJWT.getClaim("email").asString();
 
         return new UserPrincipal(id, email);
