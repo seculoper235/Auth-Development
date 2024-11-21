@@ -55,11 +55,24 @@ public class SecurityControllerTest extends ControllerTestEnv {
     @Test
     @DisplayName("로그인 할 때, 사용자가 없으면 에러를 던진다")
     void login_not_found_user_throws_entity_not_found_exception() throws Exception {
+        LoginRequest param = new LoginRequest("guest", "test123!");
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(param)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code", equalTo(ExceptionStatus.CREDENTIAL_NOT_MATCH.getCode())));
     }
 
     @Test
     @DisplayName("로그인 할 때, 비밀번호가 일치하지 않으면 에러를 던진다")
     void login_mismatch_password_throws_mismatch_password_exception() throws Exception {
+        LoginRequest param = new LoginRequest("devteller123@gmail.com", "guest123!");
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(param)))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -77,6 +90,13 @@ public class SecurityControllerTest extends ControllerTestEnv {
     @Test
     @DisplayName("토큰 재발급 할 때, DB에 토큰 정보가 없다면 에러를 던진다")
     void reissue_not_found_refresh_token_throws_exception() throws Exception {
+        String param = "INVALID_REFRESH_TOKEN";
+
+        mockMvc.perform(post("/api/auth/reissue")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(param))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code", equalTo(ExceptionStatus.TOKEN_NOT_FOUND.getCode())));
     }
 
     @Test
