@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.JwtProvider;
-import com.example.demo.model.common.security.AppPrincipal;
+import com.example.demo.model.common.security.RefreshToken;
 import com.example.demo.model.common.security.TokenInfo;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
@@ -28,11 +28,14 @@ public class TokenService {
         String access = jwtProvider.createToken(principal, EXPIRATION_MILLISECONDS);
         String refresh = jwtProvider.createToken(REFRESH_EXPIRATION_MILLISECONDS);
 
+        RefreshToken refreshToken = new RefreshToken(refresh, principal);
+        redisRepository.save(refreshToken);
+
         return new TokenInfo(access, refresh);
     }
 
     public String reissueToken(String refreshToken) {
-        Optional<AppPrincipal> appPrincipal = redisRepository.findById(refreshToken);
+        Optional<RefreshToken> appPrincipal = redisRepository.findById(refreshToken);
 
         if (appPrincipal.isPresent()) {
             return jwtProvider.createToken(
@@ -47,7 +50,7 @@ public class TokenService {
         return jwtProvider.verifyToken(accessToken);
     }
 
-    public void deleteUserPrincipal(String accessToken) {
-        redisRepository.deleteById(accessToken);
+    public void deleteUserPrincipal(String refreshToken) {
+        redisRepository.deleteById(refreshToken);
     }
 }

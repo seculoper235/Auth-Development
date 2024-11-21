@@ -6,9 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @Getter
-@RedisHash("Auth")
+@RedisHash(value = "Auth", timeToLive = 86400000)
 @AllArgsConstructor
-public class AppPrincipal {
+public class RefreshToken {
     @Id
     private String refreshToken;
 

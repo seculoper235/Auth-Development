@@ -2,7 +2,7 @@ package com.example.demo.auth.service;
 
 import com.example.demo.config.ServiceTestEnv;
 import com.example.demo.domain.JwtProvider;
-import com.example.demo.model.common.security.AppPrincipal;
+import com.example.demo.model.common.security.RefreshToken;
 import com.example.demo.model.common.security.TokenInfo;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
@@ -45,11 +45,11 @@ public class TokenServiceTest extends ServiceTestEnv {
     void user_principal_create_token_info() {
         UserPrincipal principal = new UserPrincipal(1L, "devteller123@gmail.com");
         TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
-        AppPrincipal appPrincipal = new AppPrincipal("REFRESH_TOKEN", principal);
+        RefreshToken refreshToken = new RefreshToken("REFRESH_TOKEN", principal);
 
         given(jwtProvider.createToken(any(), any())).willReturn(tokenInfo.accessToken());
         given(jwtProvider.createToken(any())).willReturn(tokenInfo.refreshToken());
-        given(redisRepository.save(any())).willReturn(appPrincipal);
+        given(redisRepository.save(any())).willReturn(refreshToken);
 
         TokenInfo result = tokenService.createToken(principal);
 
@@ -60,10 +60,10 @@ public class TokenServiceTest extends ServiceTestEnv {
     @DisplayName("토큰 재발급 시, 리프레시 토큰으로 인증정보를 얻어냈다면 어세스 토큰을 재발급한다")
     void refresh_token_reissue_access_token() {
         UserPrincipal principal = new UserPrincipal(1L, "devteller123@gmail.com");
-        AppPrincipal appPrincipal = new AppPrincipal("REFRESH_TOKEN", principal);
+        RefreshToken refreshToken = new RefreshToken("REFRESH_TOKEN", principal);
         TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
 
-        given(redisRepository.findById(any())).willReturn(Optional.of(appPrincipal));
+        given(redisRepository.findById(any())).willReturn(Optional.of(refreshToken));
         given(jwtProvider.createToken(any(), any())).willReturn(tokenInfo.accessToken());
 
         String result = tokenService.reissueToken(tokenInfo.refreshToken());

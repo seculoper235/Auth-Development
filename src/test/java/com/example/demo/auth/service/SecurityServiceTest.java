@@ -41,7 +41,7 @@ public class SecurityServiceTest extends ServiceTestEnv {
         AuthUser authUser = AuthUser.builder()
                 .id(1L)
                 .email("devteller123@gmail.com")
-                .password("test123!")
+                .password("$2a$10$B5tKf/PyHEzhpImNkwHKyONoPyqCcXY68DVLQB6PIGsZARUrsGxdq")
                 .build();
 
         given(authUserRepository.findByEmail(any())).willReturn(Optional.of(authUser));
