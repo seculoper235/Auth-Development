@@ -5,6 +5,7 @@ import com.example.demo.model.common.security.RefreshToken;
 import com.example.demo.model.common.security.TokenInfo;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
+import com.example.demo.web.exception.domain.TokenNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class TokenService {
         return new TokenInfo(access, refresh);
     }
 
-    public String reissueToken(String refreshToken) {
+    public String reissueToken(String refreshToken) throws TokenNotFoundException {
         Optional<RefreshToken> appPrincipal = redisRepository.findById(refreshToken);
 
         if (appPrincipal.isPresent()) {
@@ -42,7 +43,7 @@ public class TokenService {
                     appPrincipal.get().getUserPrincipal(),
                     EXPIRATION_MILLISECONDS);
         } else {
-            throw new RuntimeException("토큰이 존재하지 않습니다");
+            throw new TokenNotFoundException("토큰이 존재하지 않습니다");
         }
     }
 

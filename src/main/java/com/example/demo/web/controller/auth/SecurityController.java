@@ -4,6 +4,8 @@ import com.example.demo.model.common.security.TokenInfo;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.service.SecurityService;
 import com.example.demo.service.TokenService;
+import com.example.demo.web.exception.domain.CredentialNotMatchException;
+import com.example.demo.web.exception.domain.TokenNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ public class SecurityController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) throws CredentialNotMatchException {
         UserPrincipal principal = securityService.authenticate(request.email(), request.password());
         TokenInfo tokenInfo = tokenService.createToken(principal);
 
@@ -27,7 +29,7 @@ public class SecurityController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<ReissueResponse> reissue(@RequestBody String refreshToken) {
+    public ResponseEntity<ReissueResponse> reissue(@RequestBody String refreshToken) throws TokenNotFoundException {
         String token = tokenService.reissueToken(refreshToken);
         ReissueResponse response = new ReissueResponse(token);
 
