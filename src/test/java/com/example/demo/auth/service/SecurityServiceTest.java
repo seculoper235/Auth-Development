@@ -5,6 +5,7 @@ import com.example.demo.model.common.auth.AuthUser;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.AuthUserRepository;
 import com.example.demo.service.SecurityService;
+import com.example.demo.web.exception.domain.CredentialNotMatchException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ public class SecurityServiceTest extends ServiceTestEnv {
 
     @Test
     @DisplayName("이메일로 로그인 시, ID / PW가 일치한다면 인증 정보를 발급한다")
-    void email_login_match_password_create_principal() {
+    void email_login_match_password_create_principal() throws CredentialNotMatchException {
         String id = "devteller123@gmail.com";
         String password = "test123!";
 
@@ -60,7 +61,7 @@ public class SecurityServiceTest extends ServiceTestEnv {
 
         given(authUserRepository.findByEmail(any())).willReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () ->
+        assertThrows(CredentialNotMatchException.class, () ->
                 securityService.authenticate(email, password));
     }
 }
