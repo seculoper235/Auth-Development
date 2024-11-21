@@ -1,6 +1,6 @@
-package com.example.demo.web.exception.domain.dto;
+package com.example.demo.web.exception.handler;
 
-import com.example.demo.web.exception.domain.ExceptionStatus;
+import com.example.demo.web.exception.model.ExceptionStatus;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
 import lombok.Getter;

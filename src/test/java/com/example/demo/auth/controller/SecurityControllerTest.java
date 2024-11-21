@@ -7,7 +7,7 @@ import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
 import com.example.demo.web.controller.auth.LoginRequest;
 import com.example.demo.web.controller.auth.LoginResponse;
-import com.example.demo.web.exception.domain.ExceptionStatus;
+import com.example.demo.web.exception.model.ExceptionStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -5,7 +5,7 @@ import com.example.demo.model.common.security.RefreshToken;
 import com.example.demo.model.common.security.TokenInfo;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
-import com.example.demo.web.exception.domain.TokenNotFoundException;
+import com.example.demo.web.exception.model.TokenNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

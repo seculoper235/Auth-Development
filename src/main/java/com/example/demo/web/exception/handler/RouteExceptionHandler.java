@@ -2,10 +2,9 @@ package com.example.demo.web.exception.handler;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.example.demo.web.exception.domain.CredentialNotMatchException;
-import com.example.demo.web.exception.domain.ExceptionStatus;
-import com.example.demo.web.exception.domain.TokenNotFoundException;
-import com.example.demo.web.exception.domain.dto.ExceptionResponse;
+import com.example.demo.web.exception.model.CredentialNotMatchException;
+import com.example.demo.web.exception.model.ExceptionStatus;
+import com.example.demo.web.exception.model.TokenNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

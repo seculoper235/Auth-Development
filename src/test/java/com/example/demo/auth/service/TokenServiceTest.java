@@ -7,7 +7,7 @@ import com.example.demo.model.common.security.TokenInfo;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
 import com.example.demo.service.TokenService;
-import com.example.demo.web.exception.domain.TokenNotFoundException;
+import com.example.demo.web.exception.model.TokenNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

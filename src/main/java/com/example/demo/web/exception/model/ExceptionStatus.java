@@ -1,4 +1,4 @@
-package com.example.demo.web.exception.domain;
+package com.example.demo.web.exception.model;
 
 import lombok.Getter;
 

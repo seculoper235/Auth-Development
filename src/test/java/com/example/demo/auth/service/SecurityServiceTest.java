@@ -5,7 +5,7 @@ import com.example.demo.model.common.auth.AuthUser;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.AuthUserRepository;
 import com.example.demo.service.SecurityService;
-import com.example.demo.web.exception.domain.CredentialNotMatchException;
+import com.example.demo.web.exception.model.CredentialNotMatchException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
