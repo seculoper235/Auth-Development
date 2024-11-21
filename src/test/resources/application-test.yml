@@ -5,7 +5,7 @@ spring:
   datasource:
     hikari:
       driver-class-name: org.h2.Driver
-      jdbc-url: jdbc:h2:mem:test;DATABASE_TO_UPPER=FALSE
+      jdbc-url: jdbc:h2:mem:test;CASE_INSENSITIVE_IDENTIFIERS=TRUE
       username: sa
       password:
 
