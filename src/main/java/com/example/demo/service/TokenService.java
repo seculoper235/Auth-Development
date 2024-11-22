@@ -5,7 +5,7 @@ import com.example.demo.model.common.security.RefreshToken;
 import com.example.demo.model.common.security.TokenInfo;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
-import com.example.demo.web.exception.model.TokenNotFoundException;
+import com.example.demo.web.exception.model.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TokenService {
+public class TokenService implements TokenInterface<UserPrincipal> {
     @Value("${jwt.EXPIRATION_MILLISECONDS}")
     private Long EXPIRATION_MILLISECONDS;
 
@@ -35,23 +35,23 @@ public class TokenService {
         return new TokenInfo(access, refresh);
     }
 
-    public String reissueToken(String refreshToken) throws TokenNotFoundException {
-        Optional<RefreshToken> appPrincipal = redisRepository.findById(refreshToken);
+    public String reissueToken(String token) throws InvalidTokenException {
+        Optional<RefreshToken> refreshToken = redisRepository.findById(token);
 
-        if (appPrincipal.isPresent()) {
+        if (refreshToken.isPresent()) {
             return jwtProvider.createToken(
-                    appPrincipal.get().getUserPrincipal(),
+                    refreshToken.get().getUserPrincipal(),
                     EXPIRATION_MILLISECONDS);
         } else {
-            throw new TokenNotFoundException("토큰이 존재하지 않습니다");
+            throw new InvalidTokenException("올바르지 않은 토큰입니다");
         }
     }
 
-    public UserPrincipal getUserPrincipal(String accessToken) {
-        return jwtProvider.verifyToken(accessToken);
+    public UserPrincipal getPrincipal(String token) {
+        return jwtProvider.verifyToken(token);
     }
 
-    public void deleteUserPrincipal(String refreshToken) {
+    public void deletePrincipal(String refreshToken) {
         redisRepository.deleteById(refreshToken);
     }
 }

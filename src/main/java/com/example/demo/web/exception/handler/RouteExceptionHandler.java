@@ -4,7 +4,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.ExceptionStatus;
-import com.example.demo.web.exception.model.TokenNotFoundException;
+import com.example.demo.web.exception.model.InvalidTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,12 +44,12 @@ public class RouteExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
-    @ExceptionHandler(TokenNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleTokenNotFoundException(TokenNotFoundException e) {
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ExceptionResponse> handleTokenNotFoundException(InvalidTokenException e) {
 
         ExceptionResponse response = new ExceptionResponse(
                 new Date().toString(),
-                ExceptionStatus.TOKEN_NOT_FOUND,
+                ExceptionStatus.TOKEN_INVALID,
                 "Reissue Token is not available.",
                 e.getMessage());
 

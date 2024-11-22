@@ -97,7 +97,7 @@ public class SecurityControllerTest extends ControllerTestEnv {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(param))
                 .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.code", equalTo(ExceptionStatus.TOKEN_NOT_FOUND.getCode())));
+                .andExpect(jsonPath("$.code", equalTo(ExceptionStatus.TOKEN_INVALID.getCode())));
     }
 
     @Test

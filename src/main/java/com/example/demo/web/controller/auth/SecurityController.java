@@ -5,7 +5,7 @@ import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.service.SecurityService;
 import com.example.demo.service.TokenService;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
-import com.example.demo.web.exception.model.TokenNotFoundException;
+import com.example.demo.web.exception.model.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class SecurityController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<ReissueResponse> reissue(@RequestBody String refreshToken) throws TokenNotFoundException {
+    public ResponseEntity<ReissueResponse> reissue(@RequestBody String refreshToken) throws InvalidTokenException {
         String token = tokenService.reissueToken(refreshToken);
         ReissueResponse response = new ReissueResponse(token);
 
@@ -38,7 +38,8 @@ public class SecurityController {
 
     @DeleteMapping("/logout")
     public ResponseEntity<?> logout(@RequestBody String refreshToken) {
-        tokenService.deleteUserPrincipal(refreshToken);
+        tokenService.deletePrincipal(refreshToken);
+
         return ResponseEntity.noContent().build();
     }
 }

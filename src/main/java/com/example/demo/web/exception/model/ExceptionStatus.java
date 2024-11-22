@@ -7,7 +7,7 @@ public enum ExceptionStatus {
     CREDENTIAL_NOT_MATCH("CNM"),
     JWT_AUTH_EXCEPTION("TK001"),
     TOKEN_EXPIRED("TK002"),
-    TOKEN_NOT_FOUND("TK003");
+    TOKEN_INVALID("TK003");
 
     private final String code;
 

@@ -7,7 +7,7 @@ import com.example.demo.model.common.security.TokenInfo;
 import com.example.demo.model.common.security.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
 import com.example.demo.service.TokenService;
-import com.example.demo.web.exception.model.TokenNotFoundException;
+import com.example.demo.web.exception.model.InvalidTokenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,7 +59,7 @@ public class TokenServiceTest extends ServiceTestEnv {
 
     @Test
     @DisplayName("토큰 재발급 시, 리프레시 토큰으로 인증정보를 얻어냈다면 어세스 토큰을 재발급한다")
-    void refresh_token_reissue_access_token() throws TokenNotFoundException {
+    void refresh_token_reissue_access_token() throws InvalidTokenException {
         UserPrincipal principal = new UserPrincipal(1L, "devteller123@gmail.com");
         RefreshToken refreshToken = new RefreshToken("REFRESH_TOKEN", principal);
         TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
@@ -74,12 +74,12 @@ public class TokenServiceTest extends ServiceTestEnv {
 
     @Test
     @DisplayName("토큰 재발급 시, 리프레시 토큰으로 인증정보를 얻어내지 못했다면 에러를 던진다")
-    void no_valid_refresh_token_reissue_throw_TokenNotFoundException() {
+    void no_valid_refresh_token_reissue_throw_exception() {
         TokenInfo tokenInfo = new TokenInfo("ACCESS_TOKEN", "REFRESH_TOKEN");
 
         given(redisRepository.findById(any())).willReturn(Optional.empty());
 
-        assertThrows(TokenNotFoundException.class, () ->
+        assertThrows(InvalidTokenException.class, () ->
                 tokenService.reissueToken(tokenInfo.refreshToken()));
     }
 
@@ -91,7 +91,7 @@ public class TokenServiceTest extends ServiceTestEnv {
 
         given(jwtProvider.verifyToken(any())).willReturn(principal);
 
-        UserPrincipal result = tokenService.getUserPrincipal(accessToken);
+        UserPrincipal result = tokenService.getPrincipal(accessToken);
 
         assertThat(result.getName()).isEqualTo(expectedPrincipal.getName());
         assertThat(result.getEmail()).isEqualTo(expectedPrincipal.getEmail());
