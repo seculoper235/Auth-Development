@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.common.security.UserPrincipal;
+import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.persistence.AuthUserRepository;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import lombok.RequiredArgsConstructor;

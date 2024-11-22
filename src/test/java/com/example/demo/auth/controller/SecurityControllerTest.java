@@ -1,9 +1,9 @@
 package com.example.demo.auth.controller;
 
 import com.example.demo.config.ControllerTestEnv;
-import com.example.demo.model.common.security.RefreshToken;
-import com.example.demo.model.common.security.TokenInfo;
-import com.example.demo.model.common.security.UserPrincipal;
+import com.example.demo.model.common.token.RefreshToken;
+import com.example.demo.service.token.TokenInfo;
+import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
 import com.example.demo.web.controller.auth.LoginRequest;
 import com.example.demo.web.controller.auth.LoginResponse;

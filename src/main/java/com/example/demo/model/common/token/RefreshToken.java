@@ -1,4 +1,4 @@
-package com.example.demo.model.common.security;
+package com.example.demo.model.common.token;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

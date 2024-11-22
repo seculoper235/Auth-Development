@@ -2,7 +2,7 @@ package com.example.demo.auth.service;
 
 import com.example.demo.config.ServiceTestEnv;
 import com.example.demo.model.common.auth.AuthUser;
-import com.example.demo.model.common.security.UserPrincipal;
+import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.persistence.AuthUserRepository;
 import com.example.demo.service.SecurityService;
 import com.example.demo.web.exception.model.CredentialNotMatchException;

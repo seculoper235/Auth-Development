@@ -1,9 +1,9 @@
 package com.example.demo.web.controller.auth;
 
-import com.example.demo.model.common.security.TokenInfo;
-import com.example.demo.model.common.security.UserPrincipal;
+import com.example.demo.service.token.TokenInfo;
+import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.service.SecurityService;
-import com.example.demo.service.TokenService;
+import com.example.demo.service.token.TokenService;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.InvalidTokenException;
 import lombok.RequiredArgsConstructor;

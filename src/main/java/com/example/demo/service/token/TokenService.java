@@ -1,9 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.token;
 
 import com.example.demo.domain.JwtProvider;
-import com.example.demo.model.common.security.RefreshToken;
-import com.example.demo.model.common.security.TokenInfo;
-import com.example.demo.model.common.security.UserPrincipal;
+import com.example.demo.model.common.token.RefreshToken;
+import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.persistence.RedisRepository;
 import com.example.demo.web.exception.model.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
