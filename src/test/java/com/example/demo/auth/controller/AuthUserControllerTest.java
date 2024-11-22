@@ -1,6 +1,7 @@
 package com.example.demo.auth.controller;
 
 import com.example.demo.config.ControllerTestEnv;
+import com.example.demo.web.controller.user.UserRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
