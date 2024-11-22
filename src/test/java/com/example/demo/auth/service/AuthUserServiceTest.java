@@ -34,7 +34,7 @@ public class AuthUserServiceTest extends ServiceTestEnv {
     @Test
     @DisplayName("사용자 등록에 성공하면 유저 정보를 반환한다")
     void register_user_success_return_user_api() {
-        AuthUser authUser = new AuthUser(1L, "devteller123@gmail.com", "test123", Collections.emptyList());
+        AuthUser authUser = new AuthUser(1L, "dev teller", "devteller123@gmail.com", "test123", Collections.emptyList());
         given(authUserRepository.save(any())).willReturn(authUser);
 
         AuthUserInfo result = authUserService.register(authUser);
