@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.demo.config.ServiceTestEnv;
 import com.example.demo.domain.JwtProvider;
 import com.example.demo.model.common.token.UserPrincipal;
+import com.example.demo.web.security.JwtFilter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.DisplayName;
