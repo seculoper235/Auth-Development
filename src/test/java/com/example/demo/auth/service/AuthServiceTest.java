@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-public class AuthUnitTest extends UnitTest {
+public class AuthServiceTest extends UnitTest {
     @InjectMocks
     private AuthService authService;
 
