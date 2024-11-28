@@ -6,5 +6,5 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @Disabled
-public class ServiceTestEnv {
+public class UnitTest {
 }

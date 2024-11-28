@@ -1,7 +1,7 @@
 package com.example.demo.auth;
 
+import com.example.demo.config.IntegrationTest;
 import com.example.demo.config.SecurityConfig;
-import com.example.demo.config.SecurityTestEnv;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Import(SecurityConfig.class)
-public class SecurityConfigTest extends SecurityTestEnv {
-
+public class SecurityConfigTest extends IntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 

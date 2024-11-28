@@ -5,7 +5,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.demo.config.ComponentTestEnv;
 import com.example.demo.domain.JwtProvider;
 import com.example.demo.model.common.token.UserPrincipal;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Date;
 
@@ -20,7 +21,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class JwtProviderTest extends ComponentTestEnv {
+@ActiveProfiles("test")
+@SpringJUnitConfig({JwtProvider.class})
+public class JwtProviderTest {
     private final Long EXPIRATION_MILLISECONDS = 2 * 1000 * 60 * 30L;
 
     @Value("${jwt.secret}")

@@ -1,7 +1,7 @@
 package com.example.demo.auth.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.example.demo.config.ServiceTestEnv;
+import com.example.demo.config.UnitTest;
 import com.example.demo.domain.JwtProvider;
 import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.web.security.JwtFilter;
@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-public class JwtFilterTest extends ServiceTestEnv {
+public class JwtFilterTest extends UnitTest {
     @InjectMocks
     private JwtFilter jwtFilter;
 

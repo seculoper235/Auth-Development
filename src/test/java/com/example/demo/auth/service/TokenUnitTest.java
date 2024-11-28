@@ -1,6 +1,6 @@
 package com.example.demo.auth.service;
 
-import com.example.demo.config.ServiceTestEnv;
+import com.example.demo.config.UnitTest;
 import com.example.demo.domain.JwtProvider;
 import com.example.demo.model.common.token.RefreshToken;
 import com.example.demo.service.token.TokenInfo;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-public class TokenServiceTest extends ServiceTestEnv {
+public class TokenUnitTest extends UnitTest {
     @InjectMocks
     private TokenService tokenService;
 
