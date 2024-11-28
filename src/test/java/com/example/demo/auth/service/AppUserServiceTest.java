@@ -2,6 +2,8 @@ package com.example.demo.auth.service;
 
 import com.example.demo.config.UnitTest;
 import com.example.demo.model.common.AppUser;
+import com.example.demo.persistence.AppUserRepository;
+import com.example.demo.service.app.AppUserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
