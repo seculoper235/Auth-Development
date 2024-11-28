@@ -2,6 +2,8 @@ package com.example.demo.auth.controller;
 
 
 import com.example.demo.model.common.AppUser;
+import com.example.demo.service.app.AppUserService;
+import com.example.demo.web.controller.user.AppUserController;
 import com.example.demo.web.exception.model.ExceptionStatus;
 import com.example.demo.web.security.JwtFilter;
 import com.example.demo.web.security.config.SecurityConfig;

@@ -5,6 +5,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.ExceptionStatus;
 import com.example.demo.web.exception.model.InvalidTokenException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,20 @@ import java.util.Date;
 @Slf4j
 @RestControllerAdvice
 public class RouteExceptionHandler {
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+
+        ExceptionResponse response = new ExceptionResponse(
+                new Date().toString(),
+                ExceptionStatus.ENTITY_NOT_FOUND,
+                e.getMessage(),
+                e.getMessage());
+
+        log.error(response.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
 
     @ExceptionHandler(CredentialNotMatchException.class)
     public ResponseEntity<ExceptionResponse> handleEntityNotMatchException(CredentialNotMatchException e) {
