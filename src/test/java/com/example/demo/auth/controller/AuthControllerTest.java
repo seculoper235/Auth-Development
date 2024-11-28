@@ -1,11 +1,14 @@
 package com.example.demo.auth.controller;
 
 import com.example.demo.model.common.token.UserPrincipal;
+import com.example.demo.service.auth.AuthService;
 import com.example.demo.service.auth.AuthUserInfo;
 import com.example.demo.service.token.TokenInfo;
 import com.example.demo.service.token.TokenService;
+import com.example.demo.web.controller.auth.AuthController;
 import com.example.demo.web.controller.auth.LoginRequest;
 import com.example.demo.web.controller.auth.LoginResponse;
+import com.example.demo.web.controller.user.SignupRequest;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.ExceptionStatus;
 import com.example.demo.web.exception.model.InvalidTokenException;
@@ -21,6 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -158,6 +162,7 @@ public class AuthControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "dev teller")
     @DisplayName("로그아웃 할 때, No Content를 반환한다")
     void logout_no_content() throws Exception {
         String request = "REFRESH_TOKEN";
