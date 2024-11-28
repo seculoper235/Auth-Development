@@ -6,7 +6,6 @@ import com.example.demo.service.auth.AuthService;
 import com.example.demo.service.auth.AuthUserInfo;
 import com.example.demo.service.token.TokenInfo;
 import com.example.demo.service.token.TokenService;
-import com.example.demo.web.controller.user.SignupRequest;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.InvalidTokenException;
 import lombok.RequiredArgsConstructor;

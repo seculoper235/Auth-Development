@@ -1,4 +1,4 @@
-package com.example.demo.web.controller.user;
+package com.example.demo.web.controller.auth;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 

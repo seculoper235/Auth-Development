@@ -8,7 +8,7 @@ import com.example.demo.service.token.TokenService;
 import com.example.demo.web.controller.auth.AuthController;
 import com.example.demo.web.controller.auth.LoginRequest;
 import com.example.demo.web.controller.auth.LoginResponse;
-import com.example.demo.web.controller.user.SignupRequest;
+import com.example.demo.web.controller.auth.SignupRequest;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.ExceptionStatus;
 import com.example.demo.web.exception.model.InvalidTokenException;

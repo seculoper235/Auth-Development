@@ -1,6 +1,6 @@
 package com.example.demo.service.app;
 
-import com.example.demo.model.common.AppUser;
+import com.example.demo.model.app.AppUser;
 import com.example.demo.persistence.AppUserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

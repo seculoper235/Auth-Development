@@ -1,4 +1,4 @@
-package com.example.demo.persistence;
+package com.example.demo.persistence.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

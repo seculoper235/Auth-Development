@@ -1,6 +1,6 @@
-package com.example.demo.web.controller.user;
+package com.example.demo.web.controller.app;
 
-import com.example.demo.model.common.AppUser;
+import com.example.demo.model.app.AppUser;
 import com.example.demo.service.app.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

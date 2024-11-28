@@ -1,6 +1,6 @@
 package com.example.demo.persistence;
 
-import com.example.demo.model.common.AppUser;
+import com.example.demo.model.app.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
