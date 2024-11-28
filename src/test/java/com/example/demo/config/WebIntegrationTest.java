@@ -9,5 +9,5 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Disabled
-public class IntegrationTest {
+public class WebIntegrationTest {
 }
