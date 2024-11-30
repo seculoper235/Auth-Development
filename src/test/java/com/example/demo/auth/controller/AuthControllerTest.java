@@ -1,5 +1,6 @@
 package com.example.demo.auth.controller;
 
+import com.example.demo.model.common.auth.SnsType;
 import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.service.auth.AuthService;
 import com.example.demo.service.auth.AuthUserInfo;
@@ -18,6 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -130,6 +133,24 @@ public class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @ParameterizedTest
+    @EnumSource(SnsType.class)
+    @DisplayName("SNS 로그인 시, 해당하는 SNS 연동이 되어있으면 LoginResponse를 반환한다")
+    void sns_login_exist_link_sns_return_login_response(SnsType snsType) throws Exception {
+    }
+
+    @ParameterizedTest
+    @EnumSource(SnsType.class)
+    @DisplayName("SNS 로그인 시, 사용자가 존재하지 않으면 401 에러가 발생한다")
+    void sns_login_not_found_user_return_unauthorized(SnsType snsType) throws Exception {
+    }
+
+    @ParameterizedTest
+    @EnumSource(SnsType.class)
+    @DisplayName("SNS 로그인 시, 해당하는 SNS 연동이 되어있지 않으면 401 에러가 발생한다")
+    void sns_login_not_exist_link_sns_return_unauthorized(SnsType snsType) throws Exception {
     }
 
     @Test
