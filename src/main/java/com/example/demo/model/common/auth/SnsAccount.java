@@ -1,12 +1,13 @@
 package com.example.demo.model.common.auth;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
-@Setter
 @Table(name = "\"SNS_ACCOUNT\"")
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class SnsAccount {
     @Id
@@ -19,4 +20,8 @@ public class SnsAccount {
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
     private SnsType type;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AuthUser authUser;
 }

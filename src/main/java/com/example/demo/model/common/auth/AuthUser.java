@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-@Setter
 @Table(name = "\"User\"")
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,8 +27,7 @@ public class AuthUser {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "authUser")
     private List<SnsAccount> snsAccounts = Collections.emptyList();
 
     public Boolean matchPassword(PasswordEncoder passwordEncoder, String password) {

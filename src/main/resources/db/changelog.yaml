@@ -60,12 +60,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: user
-                  type: int
+                  name: user_id
+                  type: serial
                   constraints:
                     nullable: false
         - addForeignKeyConstraint:
-            baseColumnNames: user
+            baseColumnNames: user_id
             baseTableName: SNS_ACCOUNT
             constraintName: SNS_ACCOUNT_User_fkey
             onDelete: RESTRICT

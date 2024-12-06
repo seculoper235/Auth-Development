@@ -45,6 +45,16 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/login/{type}")
+    public ResponseEntity<LoginResponse> snsLogin(@RequestBody SnsLoginRequest request) throws CredentialNotMatchException {
+        UserPrincipal principal = authService.authenticate(request.uid());
+        TokenInfo tokenInfo = tokenService.createToken(principal);
+
+        LoginResponse response = new LoginResponse(Long.parseLong(principal.getName()), principal.getEmail(), tokenInfo);
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/reissue")
     public ResponseEntity<ReissueResponse> reissue(@RequestBody String refreshToken) throws InvalidTokenException {
         String token = tokenService.reissueToken(refreshToken);
