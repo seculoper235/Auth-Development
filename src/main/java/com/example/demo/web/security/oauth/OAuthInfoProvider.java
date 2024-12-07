@@ -1,4 +1,4 @@
-package com.example.demo.web.security.config;
+package com.example.demo.web.security.oauth;
 
 import com.example.demo.model.common.auth.SnsType;
 import org.springframework.security.oauth2.core.user.OAuth2User;

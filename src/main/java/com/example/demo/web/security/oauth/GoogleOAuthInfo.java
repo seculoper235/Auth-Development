@@ -1,4 +1,4 @@
-package com.example.demo.web.security.config;
+package com.example.demo.web.security.oauth;
 
 import java.util.Map;
 
