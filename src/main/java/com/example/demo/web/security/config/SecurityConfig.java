@@ -29,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final OauthSuccessHandler oauthSuccessHandler;
+    private final OAuthRequestRepository oAuthRequestRepository;
     private final JwtFilter jwtFilter;
 
     @Bean
@@ -56,8 +57,14 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Client(Customizer.withDefaults())
+                .oauth2Client(oauthClient -> oauthClient
+                        .authorizationCodeGrant(grant -> grant
+                                .authorizationRequestRepository(oAuthRequestRepository)
+                        )
+                )
                 .oauth2Login(oauth -> oauth
+                        .authorizationEndpoint(auth -> auth
+                                .authorizationRequestRepository(oAuthRequestRepository))
                         .successHandler(oauthSuccessHandler)
                 )
                 .build();

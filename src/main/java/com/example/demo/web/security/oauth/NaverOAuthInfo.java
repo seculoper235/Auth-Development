@@ -8,6 +8,6 @@ public class NaverOAuthInfo extends OAuthInfo {
     }
 
     public String getId() {
-        return (String) getAttributes().get("id");
+        return getAttributes().get("id").toString();
     }
 }
