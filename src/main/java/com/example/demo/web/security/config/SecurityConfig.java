@@ -1,5 +1,7 @@
 package com.example.demo.web.security.config;
 
+import com.example.demo.web.security.JwtFilter;
+import com.example.demo.web.security.oauth.OauthSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -26,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final OauthSuccessHandler oauthSuccessHandler;
+    private final JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
@@ -40,6 +44,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.NOT_FOUND)))
                 // 인가 설정(각 패턴에 대해 접근 권한 설정)
@@ -48,15 +53,10 @@ public class SecurityConfig {
                                 AntPathRequestMatcher
                                         .antMatcher(HttpMethod.POST, "/api/auth/**")
                         ).permitAll()
-                        .requestMatchers(
-                                AntPathRequestMatcher
-                                        .antMatcher(HttpMethod.GET, "/api/auth/user/**")
-                        ).permitAll()
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Client(Customizer.withDefaults())
-//                .oauth2Login(AbstractHttpConfigurer::disable)
                 .oauth2Login(oauth -> oauth
                         .successHandler(oauthSuccessHandler)
                 )
