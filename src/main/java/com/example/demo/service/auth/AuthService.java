@@ -6,6 +6,7 @@ import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.persistence.AuthUserRepository;
 import com.example.demo.persistence.SnsAccountRepository;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
+import com.example.demo.web.exception.model.DuplicatedEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class AuthService {
         return authUserRepository.save(user).toInfo();
     }
 
-    public SnsAccountInfo register(String email, SnsAccount snsAccount) throws CredentialNotMatchException {
+    public SnsAccountInfo register(String email, SnsAccount snsAccount) throws CredentialNotMatchException, DuplicatedEntityException {
         AuthUser authUser = authUserRepository.findByEmail(email)
                 .orElseThrow(CredentialNotMatchException::new);
 
@@ -40,7 +41,7 @@ public class AuthService {
                 .anyMatch(account -> account.getType().equals(snsAccount.getType()));
 
         if (isDuplicated) {
-            throw new CredentialNotMatchException();
+            throw new DuplicatedEntityException("이미 연동 계정이 존재합니다.");
         }
 
         SnsAccount param = SnsAccount.builder()

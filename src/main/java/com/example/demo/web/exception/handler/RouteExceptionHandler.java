@@ -3,6 +3,7 @@ package com.example.demo.web.exception.handler;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
+import com.example.demo.web.exception.model.DuplicatedEntityException;
 import com.example.demo.web.exception.model.ExceptionStatus;
 import com.example.demo.web.exception.model.InvalidTokenException;
 import jakarta.persistence.EntityNotFoundException;
@@ -39,6 +40,20 @@ public class RouteExceptionHandler {
         ExceptionResponse response = new ExceptionResponse(
                 new Date().toString(),
                 ExceptionStatus.CREDENTIAL_NOT_MATCH,
+                e.getMessage(),
+                e.getMessage());
+
+        log.error(response.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(DuplicatedEntityException.class)
+    public ResponseEntity<ExceptionResponse> handleEntityNotMatchException(DuplicatedEntityException e) {
+
+        ExceptionResponse response = new ExceptionResponse(
+                new Date().toString(),
+                ExceptionStatus.ENTITY_DUPLICATED,
                 e.getMessage(),
                 e.getMessage());
 

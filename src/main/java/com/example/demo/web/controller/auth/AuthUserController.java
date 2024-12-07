@@ -7,6 +7,7 @@ import com.example.demo.service.auth.AuthService;
 import com.example.demo.service.auth.AuthUserInfo;
 import com.example.demo.service.auth.SnsAccountInfo;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
+import com.example.demo.web.exception.model.DuplicatedEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,7 +32,7 @@ public class AuthUserController {
     public ResponseEntity<?> link(
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestBody SnsLoginRequest request,
-            @PathVariable String type) throws CredentialNotMatchException {
+            @PathVariable String type) throws CredentialNotMatchException, DuplicatedEntityException {
         SnsAccount param = SnsAccount.builder()
                 .uid(request.uid())
                 .type(SnsType.valueOf(type.toUpperCase()))
