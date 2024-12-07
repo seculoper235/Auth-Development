@@ -1,5 +1,6 @@
 package com.example.demo.model.common.auth;
 
+import com.example.demo.service.auth.AuthUserInfo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,5 +33,9 @@ public class AuthUser {
 
     public Boolean matchPassword(PasswordEncoder passwordEncoder, String password) {
         return passwordEncoder.matches(password, this.getPassword());
+    }
+
+    public AuthUserInfo toInfo() {
+        return new  AuthUserInfo(id, name, email, snsAccounts.stream().map(SnsAccount::toInfo).toList());
     }
 }

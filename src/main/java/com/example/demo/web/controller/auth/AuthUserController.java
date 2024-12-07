@@ -5,6 +5,7 @@ import com.example.demo.model.common.auth.SnsType;
 import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.service.auth.AuthService;
 import com.example.demo.service.auth.AuthUserInfo;
+import com.example.demo.service.auth.SnsAccountInfo;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +37,9 @@ public class AuthUserController {
                 .type(SnsType.valueOf(type.toUpperCase()))
                 .build();
 
-        SnsAccount snsAccount = authService.register(principal.getEmail(), param);
+        SnsAccountInfo snsAccount = authService.register(principal.getEmail(), param);
 
-        String location = "/api/auth/user/" + principal.getName() + "/link/" + snsAccount.getId();
+        String location = "/api/auth/user/" + principal.getName() + "/link/" + snsAccount.id();
 
         return ResponseEntity.created(URI.create(location))
                 .build();

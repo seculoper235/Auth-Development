@@ -21,21 +21,27 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public AuthUserInfo find(Long id) throws CredentialNotMatchException {
-        AuthUser authUser = authUserRepository.findById(id)
-                .orElseThrow(CredentialNotMatchException::new);
 
-        return new AuthUserInfo(authUser.getId(), authUser.getName(), authUser.getEmail(), authUser.getSnsAccounts());
+        return authUserRepository.findById(id)
+                .map(AuthUser::toInfo)
+                .orElseThrow(CredentialNotMatchException::new);
     }
 
     public AuthUserInfo register(AuthUser user) {
-        AuthUser authUser = authUserRepository.save(user);
 
-        return new AuthUserInfo(authUser.getId(), authUser.getName(), authUser.getEmail(), authUser.getSnsAccounts());
+        return authUserRepository.save(user).toInfo();
     }
 
-    public SnsAccount register(String email, SnsAccount snsAccount) throws CredentialNotMatchException {
+    public SnsAccountInfo register(String email, SnsAccount snsAccount) throws CredentialNotMatchException {
         AuthUser authUser = authUserRepository.findByEmail(email)
                 .orElseThrow(CredentialNotMatchException::new);
+
+        boolean isDuplicated = authUser.getSnsAccounts().stream()
+                .anyMatch(account -> account.getType().equals(snsAccount.getType()));
+
+        if (isDuplicated) {
+            throw new CredentialNotMatchException();
+        }
 
         SnsAccount param = SnsAccount.builder()
                 .uid(snsAccount.getUid())
@@ -43,7 +49,7 @@ public class AuthService {
                 .authUser(authUser)
                 .build();
 
-        return snsAccountRepository.save(param);
+        return snsAccountRepository.save(param).toInfo();
     }
 
     public UserPrincipal authenticate(String email, String password) throws CredentialNotMatchException {

@@ -1,5 +1,6 @@
 package com.example.demo.model.common.auth;
 
+import com.example.demo.service.auth.SnsAccountInfo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,4 +25,8 @@ public class SnsAccount {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AuthUser authUser;
+
+    public SnsAccountInfo toInfo() {
+        return new SnsAccountInfo(id, uid, type);
+    }
 }
