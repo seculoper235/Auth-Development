@@ -1,6 +1,6 @@
 package com.example.demo.web.security.config;
 
-import com.example.demo.common.CookieUtil;
+import com.example.demo.common.http.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
