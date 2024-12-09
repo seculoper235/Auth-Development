@@ -88,3 +88,13 @@ databaseChangeLog:
                   name: password
                   value: "$2a$10$B5tKf/PyHEzhpImNkwHKyONoPyqCcXY68DVLQB6PIGsZARUrsGxdq"
             tableName: User
+  - changeSet:
+      id: add-column-refresh-token
+      author: DevTeller
+      changes:
+        - addColumn:
+            tableName: SNS_ACCOUNT
+            columns:
+              - column:
+                  name: refreshToken
+                  type: varchar(255)

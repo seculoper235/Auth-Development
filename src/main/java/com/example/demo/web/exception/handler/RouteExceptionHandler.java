@@ -2,10 +2,7 @@ package com.example.demo.web.exception.handler;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.example.demo.web.exception.model.CredentialNotMatchException;
-import com.example.demo.web.exception.model.DuplicatedEntityException;
-import com.example.demo.web.exception.model.ExceptionStatus;
-import com.example.demo.web.exception.model.InvalidTokenException;
+import com.example.demo.web.exception.model.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -46,6 +43,20 @@ public class RouteExceptionHandler {
         log.error(response.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(AuthorizedClientException.class)
+    public ResponseEntity<ExceptionResponse> handleAuthorizedClientException(AuthorizedClientException e) {
+
+        ExceptionResponse response = new ExceptionResponse(
+                new Date().toString(),
+                ExceptionStatus.AUTHORIZED_NOT_FOUND,
+                e.getMessage(),
+                e.getMessage());
+
+        log.error(response.getMessage());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     @ExceptionHandler(DuplicatedEntityException.class)
