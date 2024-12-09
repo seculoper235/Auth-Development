@@ -11,15 +11,19 @@ import com.example.demo.web.exception.model.DuplicatedEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/auth/user/")
 @RequiredArgsConstructor
 public class AuthUserController {
     private final AuthService authService;
+    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
     @GetMapping("{id}")
     public ResponseEntity<AuthUserInfo> find(@PathVariable String id) throws CredentialNotMatchException {
@@ -33,9 +37,12 @@ public class AuthUserController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestBody SnsLoginRequest request,
             @PathVariable String type) throws CredentialNotMatchException, DuplicatedEntityException {
+        OAuth2AuthorizedClient authorizedClient = oAuth2AuthorizedClientService.loadAuthorizedClient(type, request.uid());
+
         SnsAccount param = SnsAccount.builder()
                 .uid(request.uid())
                 .type(SnsType.valueOf(type.toUpperCase()))
+                .refreshToken(Objects.requireNonNull(authorizedClient.getRefreshToken()).getTokenValue())
                 .build();
 
         SnsAccountInfo snsAccount = authService.register(principal.getEmail(), param);

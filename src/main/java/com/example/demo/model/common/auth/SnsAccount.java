@@ -22,6 +22,9 @@ public class SnsAccount {
     @Column(length = 20, nullable = false)
     private SnsType type;
 
+    @Column(nullable = false)
+    private String refreshToken;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AuthUser authUser;

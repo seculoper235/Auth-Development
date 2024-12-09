@@ -53,6 +53,31 @@ public class AuthService {
         return snsAccountRepository.save(param).toInfo();
     }
 
+    public SnsAccountInfo deregister(String email, SnsAccount snsAccount) throws CredentialNotMatchException, DuplicatedEntityException {
+        // refresh 토큰을 가져옴
+
+        // access 토큰 재발급
+
+        // 연동 해제
+        AuthUser authUser = authUserRepository.findByEmail(email)
+                .orElseThrow(CredentialNotMatchException::new);
+
+        boolean isDuplicated = authUser.getSnsAccounts().stream()
+                .anyMatch(account -> account.getType().equals(snsAccount.getType()));
+
+        if (isDuplicated) {
+            throw new DuplicatedEntityException("이미 연동 계정이 존재합니다.");
+        }
+
+        SnsAccount param = SnsAccount.builder()
+                .uid(snsAccount.getUid())
+                .type(snsAccount.getType())
+                .authUser(authUser)
+                .build();
+
+        return snsAccountRepository.save(param).toInfo();
+    }
+
     public UserPrincipal authenticate(String email, String password) throws CredentialNotMatchException {
         return authUserRepository.findByEmail(email)
                 .filter(entity -> entity.matchPassword(passwordEncoder, password))
