@@ -1,18 +1,22 @@
-package com.example.demo.web.security.config;
+package com.example.demo.persistence;
 
 import com.example.demo.common.http.RestClientFactory;
+import com.example.demo.domain.NaverClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestClient;
 
 @Configuration
 @RequiredArgsConstructor
 public class NaverClientConfig {
+    @Value("${oauth.naver.baseUrl}")
+    private String baseUrl;
+
     private final RestClientFactory restClientFactory;
 
     @Bean
-    RestClient naverTokenClient() {
-        return restClientFactory.createClient("asdf", RestClient.class);
+    NaverClient naverTokenClient() {
+        return restClientFactory.createClient(baseUrl, NaverClient.class);
     }
 }

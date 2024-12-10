@@ -1,18 +1,22 @@
-package com.example.demo.web.security.config;
+package com.example.demo.persistence;
 
 import com.example.demo.common.http.RestClientFactory;
+import com.example.demo.domain.GoogleClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestClient;
 
 @Configuration
 @RequiredArgsConstructor
 public class GoogleClientConfig {
+    @Value("${oauth.google.baseUrl}")
+    private String baseUrl;
+
     private final RestClientFactory abstractRestClientFactory;
 
     @Bean
-    RestClient googleTokenClient() {
-        return abstractRestClientFactory.createClient("asdf", RestClient.class);
+    GoogleClient googleTokenClient() {
+        return abstractRestClientFactory.createClient(baseUrl, GoogleClient.class);
     }
 }

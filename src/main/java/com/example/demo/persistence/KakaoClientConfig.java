@@ -1,18 +1,22 @@
-package com.example.demo.web.security.config;
+package com.example.demo.persistence;
 
 import com.example.demo.common.http.RestClientFactory;
+import com.example.demo.domain.KakaoClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestClient;
 
 @Configuration
 @RequiredArgsConstructor
 public class KakaoClientConfig {
+    @Value("${oauth.kakao.adminKey}")
+    private String adminKey;
+
     private final RestClientFactory restClientFactory;
 
     @Bean
-    RestClient kakaoTokenClient() {
-        return restClientFactory.createClient("asdf", RestClient.class);
+    KakaoClient kakaoTokenClient() {
+        return restClientFactory.createClient(adminKey, KakaoClient.class);
     }
 }

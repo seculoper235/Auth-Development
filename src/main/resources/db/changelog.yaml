@@ -96,5 +96,5 @@ databaseChangeLog:
             tableName: SNS_ACCOUNT
             columns:
               - column:
-                  name: refreshToken
+                  name: refresh_token
                   type: varchar(255)
