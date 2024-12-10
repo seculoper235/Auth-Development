@@ -13,7 +13,7 @@ import com.example.demo.web.controller.auth.SignupRequest;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.ExceptionStatus;
 import com.example.demo.web.exception.model.InvalidTokenException;
-import com.example.demo.web.security.JwtFilter;
+import com.example.demo.web.security.config.JwtFilter;
 import com.example.demo.web.security.config.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

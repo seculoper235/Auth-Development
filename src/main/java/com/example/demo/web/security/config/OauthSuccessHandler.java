@@ -1,7 +1,9 @@
-package com.example.demo.web.security.oauth;
+package com.example.demo.web.security.config;
 
 import com.example.demo.common.http.CookieUtil;
 import com.example.demo.model.common.auth.SnsType;
+import com.example.demo.web.security.oauth.OAuthInfo;
+import com.example.demo.web.security.oauth.OAuthInfoProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;

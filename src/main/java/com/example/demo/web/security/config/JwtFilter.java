@@ -1,4 +1,4 @@
-package com.example.demo.web.security;
+package com.example.demo.web.security.config;
 
 import com.example.demo.domain.JwtProvider;
 import com.example.demo.model.common.token.UserPrincipal;

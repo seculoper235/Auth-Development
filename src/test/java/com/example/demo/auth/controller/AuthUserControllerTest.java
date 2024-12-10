@@ -2,7 +2,7 @@ package com.example.demo.auth.controller;
 
 import com.example.demo.model.common.auth.SnsType;
 import com.example.demo.web.controller.auth.AuthUserController;
-import com.example.demo.web.security.JwtFilter;
+import com.example.demo.web.security.config.JwtFilter;
 import com.example.demo.web.security.config.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
