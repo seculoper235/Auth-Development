@@ -38,7 +38,7 @@ public class AuthUserController {
     public ResponseEntity<?> link(
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestBody SnsLoginRequest request,
-            @PathVariable String type) throws CredentialNotMatchException, DuplicatedEntityException, AuthorizedClientException {
+            @PathVariable String type) throws DuplicatedEntityException, AuthorizedClientException {
         OAuth2AuthorizedClient authorizedClient = oAuth2AuthorizedClientService.loadAuthorizedClient(type, request.uid());
 
         OAuth2RefreshToken refreshToken = Optional.ofNullable(authorizedClient)
@@ -57,5 +57,21 @@ public class AuthUserController {
 
         return ResponseEntity.created(URI.create(location))
                 .build();
+    }
+
+    @DeleteMapping("link/{type}")
+    public ResponseEntity<?> unlink(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @RequestBody SnsLoginRequest request,
+            @PathVariable String type) {
+
+        SnsAccount param = SnsAccount.builder()
+                .uid(request.uid())
+                .type(SnsType.valueOf(type.toUpperCase()))
+                .build();
+
+        authService.deregister(principal.getEmail(), param);
+
+        return ResponseEntity.noContent().build();
     }
 }

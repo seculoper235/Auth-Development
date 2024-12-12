@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface SnsAccountRepository extends JpaRepository<SnsAccount, Long> {
     Optional<SnsAccount> findByUid(String uid);
+
+    void deleteByUid(String uid);
 }

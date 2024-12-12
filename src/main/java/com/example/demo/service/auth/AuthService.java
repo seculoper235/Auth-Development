@@ -1,10 +1,10 @@
 package com.example.demo.service.auth;
 
+import com.example.demo.infra.AuthUserRepository;
+import com.example.demo.infra.SnsAccountRepository;
 import com.example.demo.model.common.auth.AuthUser;
 import com.example.demo.model.common.auth.SnsAccount;
 import com.example.demo.model.common.token.UserPrincipal;
-import com.example.demo.infra.AuthUserRepository;
-import com.example.demo.infra.SnsAccountRepository;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.DuplicatedEntityException;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,7 +34,7 @@ public class AuthService {
         return authUserRepository.save(user).toInfo();
     }
 
-    public SnsAccountInfo register(String email, SnsAccount snsAccount) throws CredentialNotMatchException, DuplicatedEntityException {
+    public SnsAccountInfo register(String email, SnsAccount snsAccount) throws DuplicatedEntityException {
         AuthUser authUser = authUserRepository.findByEmail(email)
                 .orElseThrow(EntityNotFoundException::new);
 
@@ -52,6 +52,20 @@ public class AuthService {
                 .build();
 
         return snsAccountRepository.save(param).toInfo();
+    }
+
+    public void deregister(String email, SnsAccount snsAccount) {
+        AuthUser authUser = authUserRepository.findByEmail(email)
+                .orElseThrow(EntityNotFoundException::new);
+
+        boolean isMatchAccount = authUser.getSnsAccounts().stream()
+                .anyMatch(account -> account.getUid().equals(snsAccount.getUid()));
+
+        if (!isMatchAccount) {
+            throw new RuntimeException("존재하지 않는 SNS 계정입니다.");
+        }
+
+        snsAccountRepository.deleteByUid(snsAccount.getUid());
     }
 
     public UserPrincipal authenticate(String email, String password) throws CredentialNotMatchException {
