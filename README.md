@@ -12,6 +12,8 @@
 
 * [리프레시 토큰 전략?](https://velog.io/@seculoper235/%EA%B3%A0%EB%AF%BC-%EB%A6%AC%ED%94%84%EB%A0%88%EC%8B%9C-%ED%86%A0%ED%81%B0-%EC%A0%84%EB%9E%B5)
 
+* [SNS 연동 방법](https://velog.io/@seculoper235/%EB%8F%84%EB%A9%94%EC%9D%B8-%EC%86%8C%EC%85%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%97%B0%EB%8F%99-%EB%B0%A9%EB%B2%95%EC%9E%91%EC%84%B1%EC%A4%91)
+
 
 ---
 ## 😁 As-Is
@@ -25,10 +27,11 @@
 
 * SNS 연동 기능 추가(By TDD)
 
+* SNS 연동 해제 기능 추가
+
 
 ---
 ## 💡 To-Be
-* SNS 연동 해제 기능 추가
 
 * 함수형 보조 라이브러리 적용
 
