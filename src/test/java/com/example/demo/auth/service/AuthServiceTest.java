@@ -3,7 +3,7 @@ package com.example.demo.auth.service;
 import com.example.demo.config.UnitTest;
 import com.example.demo.model.common.auth.AuthUser;
 import com.example.demo.model.common.token.UserPrincipal;
-import com.example.demo.persistence.AuthUserRepository;
+import com.example.demo.infra.AuthUserRepository;
 import com.example.demo.service.auth.AuthService;
 import com.example.demo.service.auth.AuthUserInfo;
 import com.example.demo.web.exception.model.CredentialNotMatchException;

@@ -1,4 +1,4 @@
-package com.example.demo.persistence;
+package com.example.demo.infra;
 
 import com.example.demo.common.http.RestClientFactory;
 import com.example.demo.domain.NaverClient;

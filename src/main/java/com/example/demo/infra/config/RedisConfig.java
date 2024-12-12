@@ -1,4 +1,4 @@
-package com.example.demo.persistence.config;
+package com.example.demo.infra.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,7 @@
 package com.example.demo.service.app;
 
 import com.example.demo.model.app.AppUser;
-import com.example.demo.persistence.AppUserRepository;
+import com.example.demo.infra.AppUserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

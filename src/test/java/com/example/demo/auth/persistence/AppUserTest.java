@@ -1,7 +1,7 @@
 package com.example.demo.auth.persistence;
 
 import com.example.demo.config.JpaIntegrationTest;
-import com.example.demo.persistence.AppUserRepository;
+import com.example.demo.infra.AppUserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

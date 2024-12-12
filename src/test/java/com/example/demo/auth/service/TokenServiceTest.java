@@ -5,7 +5,7 @@ import com.example.demo.domain.JwtProvider;
 import com.example.demo.model.common.token.RefreshToken;
 import com.example.demo.service.token.TokenInfo;
 import com.example.demo.model.common.token.UserPrincipal;
-import com.example.demo.persistence.RedisRepository;
+import com.example.demo.infra.RedisRepository;
 import com.example.demo.service.token.TokenService;
 import com.example.demo.web.exception.model.InvalidTokenException;
 import org.junit.jupiter.api.BeforeEach;
