@@ -12,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -21,6 +19,12 @@ public class AuthService {
     private final SnsAccountRepository snsAccountRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public SnsAccount findSnsAccount(String uid) throws CredentialNotMatchException {
+
+        return snsAccountRepository.findByUid(uid)
+                .orElseThrow(CredentialNotMatchException::new);
+    }
 
     public AuthUserInfo find(Long id) throws CredentialNotMatchException {
 
@@ -35,8 +39,7 @@ public class AuthService {
     }
 
     public SnsAccountInfo register(String email, SnsAccount snsAccount) throws DuplicatedEntityException {
-        AuthUser authUser = authUserRepository.findByEmail(email)
-                .orElseThrow(EntityNotFoundException::new);
+        AuthUser authUser = authUserRepository.getByEmail(email);
 
         boolean isDuplicated = authUser.getSnsAccounts().stream()
                 .anyMatch(account -> account.getType().equals(snsAccount.getType()));
@@ -48,21 +51,23 @@ public class AuthService {
         SnsAccount param = SnsAccount.builder()
                 .uid(snsAccount.getUid())
                 .type(snsAccount.getType())
+                .refreshToken(snsAccount.getRefreshToken())
                 .authUser(authUser)
                 .build();
 
-        return snsAccountRepository.save(param).toInfo();
+        SnsAccount result = snsAccountRepository.save(param);
+
+        return result.toInfo();
     }
 
     public void deregister(String email, SnsAccount snsAccount) {
-        AuthUser authUser = authUserRepository.findByEmail(email)
-                .orElseThrow(EntityNotFoundException::new);
+        AuthUser authUser = authUserRepository.getByEmail(email);
 
         boolean isMatchAccount = authUser.getSnsAccounts().stream()
                 .anyMatch(account -> account.getUid().equals(snsAccount.getUid()));
 
         if (!isMatchAccount) {
-            throw new RuntimeException("존재하지 않는 SNS 계정입니다.");
+            throw new EntityNotFoundException("연동된 계정이 없습니다.");
         }
 
         snsAccountRepository.deleteByUid(snsAccount.getUid());
@@ -76,10 +81,9 @@ public class AuthService {
     }
 
     public UserPrincipal authenticate(String uid) {
-        Optional<SnsAccount> snsAccount = snsAccountRepository.findByUid(uid);
-
-        AuthUser authUser = snsAccount.map(SnsAccount::getAuthUser)
-                .orElseThrow(EntityNotFoundException::new);
+        AuthUser authUser = snsAccountRepository.findByUid(uid)
+                .map(SnsAccount::getAuthUser)
+                .orElseThrow(() -> new EntityNotFoundException("연동된 계정이 없습니다."));
 
         return new UserPrincipal(authUser.getId(), authUser.getEmail());
     }

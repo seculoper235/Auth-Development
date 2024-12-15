@@ -46,7 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/{type}")
-    public ResponseEntity<LoginResponse> snsLogin(@RequestBody SnsLoginRequest request) throws CredentialNotMatchException {
+    public ResponseEntity<LoginResponse> snsLogin(@RequestBody SnsLoginRequest request) {
         UserPrincipal principal = authService.authenticate(request.uid());
         TokenInfo tokenInfo = tokenService.createToken(principal);
 
@@ -64,7 +64,7 @@ public class AuthController {
     }
 
     @DeleteMapping("/logout")
-    public ResponseEntity<?> logout(@RequestBody String refreshToken) {
+    public ResponseEntity<?> logout(@RequestParam String refreshToken) {
         tokenService.deletePrincipal(refreshToken);
 
         return ResponseEntity.noContent().build();
