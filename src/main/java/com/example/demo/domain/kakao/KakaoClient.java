@@ -1,24 +1,17 @@
-package com.example.demo.domain;
+package com.example.demo.domain.kakao;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
-@JsonSerialize
-record KakaoUnlinkRequest(
-        String target_id_type,
-        String target_id
-) {
-}
-
+@Component
 @HttpExchange
 public interface KakaoClient {
 
     @PostExchange("/v1/user/unlink")
     String unlink(
-            @RequestHeader(HttpHeaders.AUTHORIZATION) String adminKey,
+            @RequestHeader("KakaoAK") String adminKey,
             @RequestBody KakaoUnlinkRequest unlinkRequest);
 }

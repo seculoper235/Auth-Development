@@ -1,7 +1,7 @@
 package com.example.demo.infra;
 
 import com.example.demo.common.http.RestClientFactory;
-import com.example.demo.domain.KakaoClient;
+import com.example.demo.domain.kakao.KakaoClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ public class KakaoClientConfig {
     private final RestClientFactory restClientFactory;
 
     @Bean
-    KakaoClient kakaoTokenClient() {
+    KakaoClient kakaoClient() {
         return restClientFactory.createClient(adminKey, KakaoClient.class);
     }
 }

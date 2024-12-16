@@ -1,7 +1,7 @@
 package com.example.demo.infra;
 
 import com.example.demo.common.http.RestClientFactory;
-import com.example.demo.domain.NaverClient;
+import com.example.demo.domain.naver.NaverClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ public class NaverClientConfig {
     private final RestClientFactory restClientFactory;
 
     @Bean
-    NaverClient naverTokenClient() {
+    NaverClient naverClient() {
         return restClientFactory.createClient(baseUrl, NaverClient.class);
     }
 }
