@@ -1,7 +1,7 @@
 package com.example.demo.infra;
 
 import com.example.demo.common.http.RestClientFactory;
-import com.example.demo.domain.GoogleClient;
+import com.example.demo.domain.google.GoogleClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
