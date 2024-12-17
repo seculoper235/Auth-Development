@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Date;
 
@@ -119,6 +120,20 @@ public class RouteExceptionHandler {
                 .message("인증 예외가 발생하였습니다.")
                 .detail(e.getMessage())
                 .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    // TODO: 일관된 방법으로 Error Response를 가져올 수 있는 방법 고민 필요
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<ExceptionResponse> handleHttpClientErrorException(HttpClientErrorException e) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date().toString(),
+                ExceptionStatus.AUTHORIZED_NOT_FOUND,
+                e.getStatusText(),
+                e.getResponseBodyAsString());
+
+        log.error(response.getDetail());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }

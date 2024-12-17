@@ -97,6 +97,7 @@ oauth:
   naver:
     baseUrl: https://nid.naver.com
   kakao:
+    baseUrl: https://kapi.kakao.com
     adminKey: ${KAKAO_ADMIN_KEY}
 
 # 서버 실행 관련(포트 등)

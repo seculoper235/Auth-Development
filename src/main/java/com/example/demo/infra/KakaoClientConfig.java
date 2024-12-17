@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class KakaoClientConfig {
-    @Value("${oauth.kakao.adminKey}")
-    private String adminKey;
+    @Value("${oauth.kakao.baseUrl}")
+    private String baseUrl;
 
     private final RestClientFactory restClientFactory;
 
     @Bean
     KakaoClient kakaoClient() {
-        return restClientFactory.createClient(adminKey, KakaoClient.class);
+        return restClientFactory.createClient(baseUrl, KakaoClient.class);
     }
 }

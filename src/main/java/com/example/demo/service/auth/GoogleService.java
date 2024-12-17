@@ -1,8 +1,6 @@
 package com.example.demo.service.auth;
 
 import com.example.demo.domain.google.GoogleClient;
-import com.example.demo.domain.google.GoogleUnlinkResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
