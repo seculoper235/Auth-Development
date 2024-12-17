@@ -62,15 +62,11 @@ public class AuthUserController {
     @DeleteMapping("link/{type}")
     public ResponseEntity<?> unlink(
             @AuthenticationPrincipal UserPrincipal principal,
-            @RequestBody SnsLoginRequest request,
-            @PathVariable String type) {
+            @RequestParam String uid) throws CredentialNotMatchException {
 
-        SnsAccount param = SnsAccount.builder()
-                .uid(request.uid())
-                .type(SnsType.valueOf(type.toUpperCase()))
-                .build();
+        SnsAccount snsAccount = authService.findSnsAccount(uid);
 
-        authService.deregister(principal.getEmail(), param);
+        authService.deregister(principal.getEmail(), snsAccount);
 
         return ResponseEntity.noContent().build();
     }

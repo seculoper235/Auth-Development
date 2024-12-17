@@ -8,6 +8,7 @@ import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.DuplicatedEntityException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final AuthUserRepository authUserRepository;
     private final SnsAccountRepository snsAccountRepository;
+    private final ClientServiceProvider clientServiceProvider;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -60,7 +62,18 @@ public class AuthService {
         return result.toInfo();
     }
 
+    @Transactional
     public void deregister(String email, SnsAccount snsAccount) {
+        // Provider와 연동 해제
+        ClientService clientService = clientServiceProvider.getClientService(snsAccount.getType());
+
+        if (clientService instanceof AdminKeyClientService) {
+            ((AdminKeyClientService) clientService).unlink(snsAccount.getUid());
+        } else if (clientService instanceof TokenClientService) {
+            String accessToken = ((TokenClientService) clientService).reissue(snsAccount.getRefreshToken());
+            ((TokenClientService) clientService).unlink(accessToken);
+        }
+
         AuthUser authUser = authUserRepository.getByEmail(email);
 
         boolean isMatchAccount = authUser.getSnsAccounts().stream()
