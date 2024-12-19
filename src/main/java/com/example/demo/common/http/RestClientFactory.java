@@ -9,7 +9,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 public class RestClientFactory implements ClientFactory {
 
     protected HttpServiceProxyFactory httpServiceProxyFactory(String baseUrl) {
-        RestClient restClient = RestClient.builder().baseUrl(baseUrl).build();
+        RestClient restClient = RestClient.create(baseUrl);
 
         return HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient))
                 .build();
