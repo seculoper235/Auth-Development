@@ -1,15 +1,15 @@
 package com.example.demo.service.token;
 
 import com.example.demo.domain.JwtProvider;
+import com.example.demo.infra.RedisRepository;
 import com.example.demo.model.common.token.RefreshToken;
 import com.example.demo.model.common.token.UserPrincipal;
-import com.example.demo.infra.RedisRepository;
 import com.example.demo.web.exception.model.InvalidTokenException;
+import io.vavr.control.Either;
+import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,16 +34,13 @@ public class TokenService implements TokenInterface<UserPrincipal> {
         return new TokenInfo(access, refresh);
     }
 
-    public String reissueToken(String token) throws InvalidTokenException {
-        Optional<RefreshToken> refreshToken = redisRepository.findById(token);
+    public Either<InvalidTokenException, String> reissueToken(String token) {
 
-        if (refreshToken.isPresent()) {
-            return jwtProvider.createToken(
-                    refreshToken.get().getUserPrincipal(),
-                    EXPIRATION_MILLISECONDS);
-        } else {
-            throw new InvalidTokenException("올바르지 않은 토큰입니다");
-        }
+        return Option.ofOptional(redisRepository.findById(token))
+                .map(value -> jwtProvider.createToken(
+                        value.getUserPrincipal(),
+                        EXPIRATION_MILLISECONDS))
+                .toEither(() -> new InvalidTokenException("올바르지 않은 토큰입니다"));
     }
 
     public UserPrincipal getPrincipal(String token) {

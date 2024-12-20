@@ -7,6 +7,8 @@ import com.example.demo.model.common.auth.SnsAccount;
 import com.example.demo.model.common.token.UserPrincipal;
 import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.DuplicatedEntityException;
+import io.vavr.control.Either;
+import io.vavr.control.Option;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,17 +24,17 @@ public class AuthService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public SnsAccount findSnsAccount(String uid) throws CredentialNotMatchException {
+    public Either<EntityNotFoundException, SnsAccount> findSnsAccount(String uid) {
 
-        return snsAccountRepository.findByUid(uid)
-                .orElseThrow(CredentialNotMatchException::new);
+        return Option.ofOptional(snsAccountRepository.findByUid(uid))
+                .toEither(() -> new EntityNotFoundException("연동된 SNS 계정이 존재하지 않습니다"));
     }
 
-    public AuthUserInfo find(Long id) throws CredentialNotMatchException {
+    public Either<EntityNotFoundException, AuthUserInfo> find(Long id) {
 
-        return authUserRepository.findById(id)
+        return Option.ofOptional(authUserRepository.findById(id))
                 .map(AuthUser::toInfo)
-                .orElseThrow(CredentialNotMatchException::new);
+                .toEither(() -> new EntityNotFoundException("존재하지 않는 사용자입니다"));
     }
 
     public AuthUserInfo register(AuthUser user) {
@@ -40,14 +42,14 @@ public class AuthService {
         return authUserRepository.save(user).toInfo();
     }
 
-    public SnsAccountInfo register(String email, SnsAccount snsAccount) throws DuplicatedEntityException {
+    public Either<DuplicatedEntityException, SnsAccountInfo> register(String email, SnsAccount snsAccount) {
         AuthUser authUser = authUserRepository.getByEmail(email);
 
         boolean isDuplicated = authUser.getSnsAccounts().stream()
                 .anyMatch(account -> account.getType().equals(snsAccount.getType()));
 
         if (isDuplicated) {
-            throw new DuplicatedEntityException("이미 연동 계정이 존재합니다.");
+            return Either.left(new DuplicatedEntityException("이미 연동 계정이 존재합니다."));
         }
 
         SnsAccount param = SnsAccount.builder()
@@ -59,7 +61,7 @@ public class AuthService {
 
         SnsAccount result = snsAccountRepository.save(param);
 
-        return result.toInfo();
+        return Either.right(result.toInfo());
     }
 
     @Transactional
@@ -86,11 +88,11 @@ public class AuthService {
         snsAccountRepository.deleteByUid(snsAccount.getUid());
     }
 
-    public UserPrincipal authenticate(String email, String password) throws CredentialNotMatchException {
-        return authUserRepository.findByEmail(email)
+    public Either<CredentialNotMatchException, UserPrincipal> authenticate(String email, String password) {
+        return Option.ofOptional(authUserRepository.findByEmail(email))
                 .filter(entity -> entity.matchPassword(passwordEncoder, password))
                 .map(user -> new UserPrincipal(user.getId(), user.getEmail()))
-                .orElseThrow(CredentialNotMatchException::new);
+                .toEither(CredentialNotMatchException::new);
     }
 
     public UserPrincipal authenticate(String uid) {

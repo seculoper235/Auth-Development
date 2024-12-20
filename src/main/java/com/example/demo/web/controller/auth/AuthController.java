@@ -44,7 +44,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) throws CredentialNotMatchException {
-        UserPrincipal principal = authService.authenticate(request.email(), request.password());
+        UserPrincipal principal = authService.authenticate(request.email(), request.password())
+                .getOrElseThrow(it -> it);
+
         TokenInfo tokenInfo = tokenService.createToken(principal);
 
         LoginResponse response = new LoginResponse(Long.parseLong(principal.getName()), principal.getEmail(), tokenInfo);
@@ -73,7 +75,9 @@ public class AuthController {
 
     @PostMapping("/reissue")
     public ResponseEntity<ReissueResponse> reissue(@RequestBody String refreshToken) throws InvalidTokenException {
-        String token = tokenService.reissueToken(refreshToken);
+        String token = tokenService.reissueToken(refreshToken)
+                .getOrElseThrow(it -> it);
+
         ReissueResponse response = new ReissueResponse(token);
 
         return ResponseEntity.ok(response);
