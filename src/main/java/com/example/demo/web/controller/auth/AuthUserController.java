@@ -7,8 +7,8 @@ import com.example.demo.service.auth.AuthService;
 import com.example.demo.service.auth.AuthUserInfo;
 import com.example.demo.service.auth.SnsAccountInfo;
 import com.example.demo.web.exception.model.AuthorizedClientException;
-import com.example.demo.web.exception.model.CredentialNotMatchException;
 import com.example.demo.web.exception.model.DuplicatedEntityException;
+import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth/user/")
@@ -28,8 +27,9 @@ public class AuthUserController {
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
     @GetMapping("{id}")
-    public ResponseEntity<AuthUserInfo> find(@PathVariable String id) throws CredentialNotMatchException {
-        AuthUserInfo result = authService.find(Long.parseLong(id));
+    public ResponseEntity<AuthUserInfo> find(@PathVariable String id) {
+        AuthUserInfo result = authService.find(Long.parseLong(id))
+                .getOrElseThrow(it -> it);
 
         return ResponseEntity.ok(result);
     }
@@ -41,17 +41,18 @@ public class AuthUserController {
             @PathVariable String type) throws DuplicatedEntityException, AuthorizedClientException {
         OAuth2AuthorizedClient authorizedClient = oAuth2AuthorizedClientService.loadAuthorizedClient(type, request.uid());
 
-        OAuth2RefreshToken refreshToken = Optional.ofNullable(authorizedClient)
-                .flatMap(client -> Optional.ofNullable((client.getRefreshToken())))
-                .orElseThrow(() -> new AuthorizedClientException(type + " Authorized Client Info is missing!"));
+        OAuth2RefreshToken refreshToken = Option.of(authorizedClient)
+                .flatMap(client -> Option.of((client.getRefreshToken())))
+                .getOrElseThrow(() -> new AuthorizedClientException(type + " Authorized Client Info is missing!"));
 
         SnsAccount param = SnsAccount.builder()
-                .uid(request.uid())
-                .type(SnsType.valueOf(type.toUpperCase()))
+                .uid(authorizedClient.getPrincipalName())
+                .type(SnsType.valueOf(authorizedClient.getClientRegistration().getRegistrationId()))
                 .refreshToken(refreshToken.getTokenValue())
                 .build();
 
-        SnsAccountInfo snsAccount = authService.register(principal.getEmail(), param);
+        SnsAccountInfo snsAccount = authService.register(principal.getEmail(), param)
+                .getOrElseThrow(it -> it);
 
         String location = "/api/auth/user/" + principal.getName() + "/link/" + snsAccount.id();
 
@@ -62,9 +63,10 @@ public class AuthUserController {
     @DeleteMapping("link/{type}")
     public ResponseEntity<?> unlink(
             @AuthenticationPrincipal UserPrincipal principal,
-            @RequestParam String uid) throws CredentialNotMatchException {
+            @RequestParam String uid) {
 
-        SnsAccount snsAccount = authService.findSnsAccount(uid);
+        SnsAccount snsAccount = authService.findSnsAccount(uid)
+                .getOrElseThrow(it -> it);
 
         authService.deregister(principal.getEmail(), snsAccount);
 

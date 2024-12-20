@@ -24,17 +24,17 @@ public class AuthService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public Either<CredentialNotMatchException, SnsAccount> findSnsAccount(String uid) {
+    public Either<EntityNotFoundException, SnsAccount> findSnsAccount(String uid) {
 
         return Option.ofOptional(snsAccountRepository.findByUid(uid))
-                .toEither(CredentialNotMatchException::new);
+                .toEither(() -> new EntityNotFoundException("연동된 SNS 계정이 존재하지 않습니다"));
     }
 
-    public Either<CredentialNotMatchException, AuthUserInfo> find(Long id) {
+    public Either<EntityNotFoundException, AuthUserInfo> find(Long id) {
 
         return Option.ofOptional(authUserRepository.findById(id))
                 .map(AuthUser::toInfo)
-                .toEither(CredentialNotMatchException::new);
+                .toEither(() -> new EntityNotFoundException("존재하지 않는 사용자입니다"));
     }
 
     public AuthUserInfo register(AuthUser user) {
