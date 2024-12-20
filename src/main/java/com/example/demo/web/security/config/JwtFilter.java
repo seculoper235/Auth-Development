@@ -3,7 +3,6 @@ package com.example.demo.web.security.config;
 import com.example.demo.domain.JwtProvider;
 import com.example.demo.model.common.token.UserPrincipal;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
         try {
             Optional<String> accessToken = Optional.ofNullable(request.getHeader("Authorization"))
                     .filter(token -> token.startsWith("Bearer "))
